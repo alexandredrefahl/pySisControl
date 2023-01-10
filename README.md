@@ -9,3 +9,5 @@ Esta versão é um complemento ao projeto do SisControl.NET escrito em VB.NET. A
 Não migramos todo o sistema da plataforma .NET para Python, a id
 
 O Projeto foi **"carregado"** no GitHub em **10/01/2023**
+
+Em **10/01/2023** Também configurado cliente git localmente para sincronizar o desenvolvimento
