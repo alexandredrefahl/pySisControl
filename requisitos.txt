@@ -1,0 +1,6 @@
+skpy
+pycep_correios
+xlrd
+mysql
+mysql-connector
+reportlab

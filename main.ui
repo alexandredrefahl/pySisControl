@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Noto Sans</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Sis control Linux</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QMdiArea" name="mdiArea"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArquivo">
+    <property name="title">
+     <string>Arquivo</string>
+    </property>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuPedidos">
+    <property name="title">
+     <string>Pedidos</string>
+    </property>
+    <addaction name="actIncluir_Pedido"/>
+    <addaction name="separator"/>
+    <addaction name="actIncluir_Pedidos"/>
+    <addaction name="actPesquisar_Reservas"/>
+    <addaction name="separator"/>
+    <addaction name="actSimular_Frete"/>
+    <addaction name="actChecar_Email"/>
+   </widget>
+   <widget class="QMenu" name="menuConfigura_es">
+    <property name="title">
+     <string>Configurações</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuProdu_o">
+    <property name="title">
+     <string>Produção</string>
+    </property>
+    <addaction name="actBaixaFrascos"/>
+    <addaction name="actInventario"/>
+   </widget>
+   <widget class="QMenu" name="menuRelat_rios">
+    <property name="title">
+     <string>Relatórios</string>
+    </property>
+    <addaction name="actRptPlanilha_Reservas"/>
+    <addaction name="actRptEtiquetas_Caixas"/>
+    <addaction name="actRptRastreadores"/>
+    <addaction name="actRptPesoValor"/>
+   </widget>
+   <addaction name="menuArquivo"/>
+   <addaction name="menuProdu_o"/>
+   <addaction name="menuPedidos"/>
+   <addaction name="menuConfigura_es"/>
+   <addaction name="menuRelat_rios"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actIncluir_Pedidos">
+   <property name="text">
+    <string>Incluir Reservas</string>
+   </property>
+  </action>
+  <action name="actSimular_Frete">
+   <property name="text">
+    <string>Simular Frete</string>
+   </property>
+  </action>
+  <action name="actChecar_Email">
+   <property name="text">
+    <string>Checar Email</string>
+   </property>
+  </action>
+  <action name="actionSair">
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </action>
+  <action name="actBaixaFrascos">
+   <property name="text">
+    <string>Baixa de Frascos</string>
+   </property>
+  </action>
+  <action name="actRptPlanilha_Reservas">
+   <property name="text">
+    <string>Planilha de Reservas</string>
+   </property>
+   <property name="font">
+    <font/>
+   </property>
+  </action>
+  <action name="actPesquisar_Reservas">
+   <property name="text">
+    <string>Gerenciar Reservas</string>
+   </property>
+  </action>
+  <action name="actRptEtiquetas_Caixas">
+   <property name="text">
+    <string>Etiquetas Caixas</string>
+   </property>
+   <property name="font">
+    <font/>
+   </property>
+  </action>
+  <action name="actIncluir_Pedido">
+   <property name="text">
+    <string>Incluir Pedido</string>
+   </property>
+  </action>
+  <action name="actRptRastreadores">
+   <property name="text">
+    <string>Importar Rastreadores</string>
+   </property>
+  </action>
+  <action name="actRptPesoValor">
+   <property name="text">
+    <string>Importa Peso e Valor</string>
+   </property>
+  </action>
+  <action name="actInventario">
+   <property name="text">
+    <string>Importa dados Inventário</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
