@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.mdiArea)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 19))
         self.menubar.setObjectName("menubar")
         self.menuArquivo = QtWidgets.QMenu(self.menubar)
         self.menuArquivo.setObjectName("menuArquivo")
@@ -72,6 +72,8 @@ class Ui_MainWindow(object):
         self.actRptPesoValor.setObjectName("actRptPesoValor")
         self.actInventario = QtWidgets.QAction(MainWindow)
         self.actInventario.setObjectName("actInventario")
+        self.actRptVendas = QtWidgets.QAction(MainWindow)
+        self.actRptVendas.setObjectName("actRptVendas")
         self.menuArquivo.addAction(self.actionSair)
         self.menuPedidos.addAction(self.actIncluir_Pedido)
         self.menuPedidos.addSeparator()
@@ -86,6 +88,7 @@ class Ui_MainWindow(object):
         self.menuRelat_rios.addAction(self.actRptEtiquetas_Caixas)
         self.menuRelat_rios.addAction(self.actRptRastreadores)
         self.menuRelat_rios.addAction(self.actRptPesoValor)
+        self.menuRelat_rios.addAction(self.actRptVendas)
         self.menubar.addAction(self.menuArquivo.menuAction())
         self.menubar.addAction(self.menuProdu_o.menuAction())
         self.menubar.addAction(self.menuPedidos.menuAction())
@@ -115,6 +118,7 @@ class Ui_MainWindow(object):
         self.actRptRastreadores.setText(_translate("MainWindow", "Importar Rastreadores"))
         self.actRptPesoValor.setText(_translate("MainWindow", "Importa Peso e Valor"))
         self.actInventario.setText(_translate("MainWindow", "Importa dados Inventário"))
+        self.actRptVendas.setText(_translate("MainWindow", "Vendas por periodo"))
 
 
 if __name__ == "__main__":
