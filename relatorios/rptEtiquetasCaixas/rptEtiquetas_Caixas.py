@@ -153,8 +153,10 @@ class rptEtiquetas_Caixas:
         varAltura = str(int(Data.field("A").value()*100)) + " cm"
         varPeso = locale.format_string('%.3f',Data.field("Peso").value()) + " kg"
         # Código de Barras
+        fonte = os.path.join(os.path.dirname(__file__),"Arial.ttf")
+        print(fonte)
         Codigo = barcode.get("Code128",varCEP,writer=ImageWriter())
-        options = dict(text_distance=2,font_size=14,module_height=10)
+        options = dict(text_distance=4,font_size=10,font_path=fonte,module_height=11)
         arq = Codigo.save(os.path.join(os.path.dirname(__file__), str(varCEP)), options)
         CodigoBarras = os.path.join(os.path.dirname(__file__), arq)
         self.c.drawImage(CodigoBarras, self.Eti_XI[num] + (18 * mm), self.Eti_YI[num] - (99 * mm),height=(20*mm), width=(65*mm), preserveAspectRatio=False)

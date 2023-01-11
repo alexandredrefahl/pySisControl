@@ -276,14 +276,15 @@ class frmCalculaFrete(QDialog):
 
     def tamanho_caixa(self, numMudas):
         # Array com os tamanhos das caixas (50, 100, 250, 500, 750, 1000, 1500)
-        TamCaixas = ["20 20 25", "25 30 25", "41 32 27", "34 54 20", "34 54 34", "57 67 67", "70 51 52"]
+        # Caixa      A0          B0          A1          Elepot1     Elepot2     Caixa 08    Isopor
+        TamCaixas = ["17 17 24", "32 15 36", "32 36 25", "34 54 17", "34 54 34", "57 67 67", "70 51 52"]
         if (numMudas <= 50):
             return TamCaixas[0]
         elif (numMudas <= 100):
             return TamCaixas[1]
-        elif (numMudas <= 250):
+        elif (numMudas <= 170):
             return TamCaixas[2]
-        elif (numMudas <= 500):
+        elif (numMudas <= 350):
             return TamCaixas[3]
         elif (numMudas <= 750):
             return TamCaixas[4]

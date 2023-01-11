@@ -47,7 +47,7 @@ class rptPlanilha_Reservas:
     def monta_cabecalho(self):
         # Logotipo
         fileLogo = os.path.join(os.path.dirname(__file__), "logo.jpg")
-        self.c.drawImage(fileLogo, -5 * mm, 185.4 * mm, height=51, preserveAspectRatio=True)
+        self.c.drawImage(fileLogo, -5 * mm, 185 * mm, height=51, preserveAspectRatio=True)
         # Duas linhas e título
         self.c.setStrokeColor(black)
         self.c.setLineWidth(2)

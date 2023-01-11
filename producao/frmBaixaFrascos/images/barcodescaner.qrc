@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="barcode_scanner">
+    <file>barcode_scanner.png</file>
+  </qresource>
+</RCC>
