@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>570</width>
-    <height>500</height>
+    <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -100,7 +100,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>410</y>
+     <y>430</y>
      <width>151</width>
      <height>25</height>
     </rect>
@@ -116,7 +116,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>410</y>
+     <y>430</y>
      <width>151</width>
      <height>25</height>
     </rect>
@@ -132,7 +132,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>440</y>
+     <y>460</y>
      <width>150</width>
      <height>25</height>
     </rect>
@@ -148,7 +148,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>440</y>
+     <y>460</y>
      <width>151</width>
      <height>25</height>
     </rect>
@@ -164,7 +164,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>440</y>
+     <y>460</y>
      <width>150</width>
      <height>25</height>
     </rect>
@@ -251,7 +251,7 @@
      <x>10</x>
      <y>240</y>
      <width>541</width>
-     <height>71</height>
+     <height>91</height>
     </rect>
    </property>
    <property name="title">
@@ -398,12 +398,41 @@
      <string>Prof.</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="rdJadLog">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>JadLog</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rdSEDEX">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SEDEX</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="grpResumo">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>340</y>
      <width>541</width>
      <height>80</height>
     </rect>
@@ -422,7 +451,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -444,7 +472,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -466,7 +493,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -488,7 +514,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -510,7 +535,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -534,7 +558,6 @@
      <font>
       <family>DejaVu Sans</family>
       <pointsize>9</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -558,7 +581,6 @@
      <font>
       <family>DejaVu Sans</family>
       <pointsize>9</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -580,7 +602,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -596,7 +617,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
+     <y>430</y>
      <width>90</width>
      <height>23</height>
     </rect>
@@ -612,7 +633,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>410</y>
+     <y>430</y>
      <width>61</width>
      <height>23</height>
     </rect>
@@ -633,13 +654,15 @@
   <tabstop>txtProf</tabstop>
   <tabstop>txtPeso</tabstop>
   <tabstop>txtValFrete</tabstop>
-  <tabstop>chkJadLog</tabstop>
-  <tabstop>chkAzul</tabstop>
+  <tabstop>rdJadLog</tabstop>
+  <tabstop>rdSEDEX</tabstop>
   <tabstop>btSendSkype</tabstop>
   <tabstop>btCopyMail</tabstop>
   <tabstop>btCopyWhats</tabstop>
   <tabstop>btFrete</tabstop>
   <tabstop>btLimpar</tabstop>
+  <tabstop>chkJadLog</tabstop>
+  <tabstop>chkAzul</tabstop>
  </tabstops>
  <resources/>
  <connections/>

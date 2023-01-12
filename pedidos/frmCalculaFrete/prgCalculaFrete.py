@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QTableWidgetItem
 from skpy import Skype
 
 from bibliotecas.mysqldb import *
+from bibliotecas.biblioteca import calculaSEDEX
 from pedidos.frmCalculaFrete.frmNewCalculaFrete import *
 from pedidos.frmCalculaFrete.libJadLog import *
 
@@ -192,7 +193,11 @@ class frmCalculaFrete(QDialog):
             # Acrescenta a nova linha
             mensagem += novaLinha
         # Acrescenta o Frete
-        linFrete = "Frete via JadLog ".ljust(47,".") + self.ui.txtValFrete.text().rjust(7) + "\n"
+        if self.ui.rdJadLog.isChecked():
+            varTrans = "JadLog"
+        else:
+            varTrans = "SEDEX"
+        linFrete = f"Frete via {varTrans} ".ljust(47,".") + self.ui.txtValFrete.text().rjust(7) + "\n"
         mensagem += linFrete
         # Acrescenta o total
         linTotal = "TOTAL ".ljust(47,".") + self.ui.lblTotal.text().rjust(7)
@@ -216,7 +221,11 @@ class frmCalculaFrete(QDialog):
             # Acrescenta a nova linha
             mensagem += novaLinha
         # Acrescenta o Frete
-        linFrete = "Frete via SEDEX ".ljust(25, ".") + self.ui.txtValFrete.text().rjust(7) + "\n"
+        if self.ui.rdJadLog.isChecked():
+            varTrans = "JadLog"
+        else:
+            varTrans = "SEDEX"
+        linFrete = f"Frete via {varTrans} ".ljust(25, ".") + self.ui.txtValFrete.text().rjust(7) + "\n"
         mensagem += linFrete
         # Acrescenta o total
         linTotal = "TOTAL ".ljust(25, ".") + self.ui.lblTotal.text().rjust(7)
@@ -241,37 +250,28 @@ class frmCalculaFrete(QDialog):
         varAltu = int(self.ui.txtAlt.text())
         # Verifica se vai ser usado o peso calculado ou peso cubado
         peso_considerado = calcula_peso_real(varLarg, varAltu, varProf, 0, float(varPeso))
-        # Calcula preço e Prazo pela função
-        Preco, Prazo = calcula_frete(varCEP, peso_considerado, varValor)
-        # Acréscimo de taxa Administrativa
-        Preco += 4.5
-        # Calcula Taxa Reguro
-        seguro = aliquota_seguro(varCEP)
-        val_seguro = varValor * (seguro / 100)
-        # Calcula o valor final com os acréscimos
-        valor_final = Preco + val_seguro
-        # Compensa a alíquota o Simples
-        valor_final = (valor_final / 0.955)
+        if self.ui.rdJadLog.isChecked():
+            # Calcula preço e Prazo pela função
+            Preco, Prazo = calcula_frete(varCEP, peso_considerado, varValor)
+            # Acréscimo de taxa Administrativa
+            Preco += 4.5
+            # Calcula Taxa Reguro
+            seguro = aliquota_seguro(varCEP)
+            val_seguro = varValor * (seguro / 100)
+            # Calcula o valor final com os acréscimos
+            valor_final = Preco + val_seguro
+            # Compensa a alíquota o Simples
+            valor_final = (valor_final / 0.955)
+        if self.ui.rdSEDEX.isChecked():
+            varDim = [varLarg, varAltu, varProf]
+            Preco, Prazo = calculaSEDEX(cepOri="89203001", cepDest=varCEP,Dimensoes = varDim, peso = varPeso)
+            valor_final = (Preco / 0.955)
         self.ui.txtValFrete.setText(locale.format_string('%.2f', valor_final))
         self.atualiza_totais()
         # Se o prazo for maior que 7 dias
         if Prazo > 7:
             self.ui.lblPrazo.setStyleSheet('color: red')
-
-        # Mostra o valor final na tabela e campos
-        # monta a linha que será acrescentada na caixa de texto
-        # novaLinha = "FRETE via JadLog ".ljust(43,".") + " " + locale.format_string('%.2f', valor_final).rjust(7)
-        # Acrescenta a nova linha
-        # self.ui.txtOrcamento.appendPlainText(novaLinha)
-        # Atualiza o Total
-        # Atualiza a exibição do total
-        # self.ui.lblTotal.setText(locale.format_string('%.2f', self.total))
         self.ui.lblPrazo.setText(f"{Prazo:02d}" + " dias")
-        # Altera a cor do Total com Frete
-        # self.ui.lblTotal.setStyleSheet('color: blue')
-        # self.ui.lblPrazo.setStyleSheet('color: blue')
-        # self.ui.lblTotal_2.setStyleSheet('color: blue')
-        # self.ui.lblTotal_3.setStyleSheet('color: blue')
         QApplication.restoreOverrideCursor()
 
     def tamanho_caixa(self, numMudas):
