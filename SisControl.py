@@ -18,6 +18,7 @@ from relatorios.rptPlanilhaReservas.prgPlanilhaReservas import *
 from relatorios.txtRastreadores.prgImportaRastreadores import *
 from relatorios.txtPesoValor.prgImportaPesoValor import *
 from relatorios.rptVendas.rptRelatorioVendas import *
+from relatorios.rptRoyalties.prgRelatorioRoyalties import *
 
 import sys, os
 from datetime import datetime
@@ -41,6 +42,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.ui.actRptPesoValor.triggered.connect(self.actRptPesoValor_triggered)
         self.ui.actInventario.triggered.connect(self.actInventario_triggered)
         self.ui.actRptVendas.triggered.connect(self.actVendas_triggered)
+        self.ui.actRoyalties.triggered.connect(self.actRoyalties_triggered)
 
         # Variável de controle para centralizar
         self.is_first_time = True
@@ -121,11 +123,16 @@ class frmSisControl(QtWidgets.QMainWindow):
         subWindow.resize(frameInventario.size())
         self.center_subwindow(subWindow)
         subWindow.showNormal()
-
     def actVendas_triggered(self):
         frameVendas = dlgRelatorioVendas()
         subWindow = self.ui.mdiArea.addSubWindow(frameVendas)
         subWindow.resize(frameVendas.size())
+        self.center_subwindow(subWindow)
+        subWindow.showNormal()
+    def actRoyalties_triggered(self):
+        frameRoyalties = frmRelatorioRoyalties()
+        subWindow = self.ui.mdiArea.addSubWindow(frameRoyalties)
+        subWindow.resize(frameRoyalties.size())
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 

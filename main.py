@@ -74,6 +74,8 @@ class Ui_MainWindow(object):
         self.actInventario.setObjectName("actInventario")
         self.actRptVendas = QtWidgets.QAction(MainWindow)
         self.actRptVendas.setObjectName("actRptVendas")
+        self.actRoyalties = QtWidgets.QAction(MainWindow)
+        self.actRoyalties.setObjectName("actRoyalties")
         self.menuArquivo.addAction(self.actionSair)
         self.menuPedidos.addAction(self.actIncluir_Pedido)
         self.menuPedidos.addSeparator()
@@ -89,6 +91,8 @@ class Ui_MainWindow(object):
         self.menuRelat_rios.addAction(self.actRptRastreadores)
         self.menuRelat_rios.addAction(self.actRptPesoValor)
         self.menuRelat_rios.addAction(self.actRptVendas)
+        self.menuRelat_rios.addAction(self.actRoyalties)
+        self.menuRelat_rios.addSeparator()
         self.menubar.addAction(self.menuArquivo.menuAction())
         self.menubar.addAction(self.menuProdu_o.menuAction())
         self.menubar.addAction(self.menuPedidos.menuAction())
@@ -119,6 +123,8 @@ class Ui_MainWindow(object):
         self.actRptPesoValor.setText(_translate("MainWindow", "Importa Peso e Valor"))
         self.actInventario.setText(_translate("MainWindow", "Importa dados Inventário"))
         self.actRptVendas.setText(_translate("MainWindow", "Vendas por periodo"))
+        self.actRoyalties.setText(_translate("MainWindow", "Royalties por periodo"))
+        self.actRoyalties.setToolTip(_translate("MainWindow", "Gera relatório de Royalties pelo período definido"))
 
 
 if __name__ == "__main__":

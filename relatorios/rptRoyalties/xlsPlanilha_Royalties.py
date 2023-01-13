@@ -8,7 +8,9 @@ setlocale(LC_ALL, 'pt_BR.UTF-8')
 
 class xlsPlanilha_Royalties:
 
-    def __init__(self, codPro, dataINI = "", dataFIM = ""):
+    def __init__(self, codPro=0, dataINI = "", dataFIM = ""):
+        if codPro == 0 or dataINI == "" or dataFIM == "":
+            return
         self.Produtos = codPro
         self.dataINI = dataINI
         self.dataFIM = dataFIM
