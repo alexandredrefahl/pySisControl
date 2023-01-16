@@ -21,13 +21,13 @@ class frmRelatorioRoyalties(QtWidgets.QDialog):
 
     def btRelatorio_clicked(self):
         iterator = QTreeWidgetItemIterator(self.ui.treeWidget, QTreeWidgetItemIterator.Checked)
+        cods = []
         while iterator.value():
             item = iterator.value()
-            print(item.text(0))
+            print(item.text(0)[:7])
+            cods.append(item.text(0)[:7])
             iterator += 1
-
-        #cods = ["45.396", "45.397", "45.398", "45.399", "45.400", "45.401"]
-        #ODF = xlsPlanilha_Royalties(cods, dataINI=self.ui.txtDatINI.date().toString('yyyy-MM-dd'), dataFIM=self.ui.txtDataFIM.date().toString('yyyy-MM-dd'))
-        #ODF.monta_planilha()
-        #if os.name == 'posix':
-        #    os.system('xdg-open ' + ODF.arquivo)
+        ODF = xlsPlanilha_Royalties(cods, dataINI=self.ui.txtDatINI.date().toString('yyyy-MM-dd'), dataFIM=self.ui.txtDataFIM.date().toString('yyyy-MM-dd'))
+        ODF.monta_planilha()
+        if os.name == 'posix':
+            os.system('xdg-open ' + ODF.arquivo)

@@ -50,7 +50,7 @@
       </property>
       <item>
        <property name="text">
-        <string>0001 - BRS-Ajubá</string>
+        <string>15.0001 - BRS-Ajubá</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -61,7 +61,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0005 - BRS-Imperial</string>
+        <string>15.0005 - BRS-Imperial</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -69,7 +69,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0006 - BRS-Vitória</string>
+        <string>15.0006 - BRS-Vitória</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -94,7 +94,7 @@
       </property>
       <item>
        <property name="text">
-        <string>0396 - BRS-396</string>
+        <string>45.0396 - BRS-396</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -105,7 +105,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0397 - BRS-397</string>
+        <string>45.0397 - BRS-397</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -116,7 +116,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0398 - BRS-398</string>
+        <string>45.0398 - BRS-398</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -127,7 +127,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0399 - BRS-399</string>
+        <string>45.0399 - BRS-399</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -135,7 +135,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0400 - BRS-400</string>
+        <string>45.0400 - BRS-400</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -143,7 +143,55 @@
       </item>
       <item>
        <property name="text">
-        <string>0401 - BRS-401</string>
+        <string>45.0401 - BRS-401</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0429 - BRS-429</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0417 - BRS-417</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0418 - BRS-418</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0419 - BRS-419</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0420 - BRS-420</string>
+       </property>
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>45.0001 - BRS-CS-01</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -165,7 +213,7 @@
       </property>
       <item>
        <property name="text">
-        <string>0001 - BRS-Amélia</string>
+        <string>48.0001 - BRS-Amélia</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -173,7 +221,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0002 - BRS-Beauregard</string>
+        <string>48.0002 - BRS-Beauregard</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -181,7 +229,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0003 - BRS-Rubissol</string>
+        <string>48.0003 - BRS-Rubissol</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -189,7 +237,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0005 - BRS-Cuia</string>
+        <string>48.0005 - BRS-Cuia</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -197,7 +245,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0006 - BRS-Anembé</string>
+        <string>48.0006 - BRS-Anembé</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -205,7 +253,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0007 - Cotinga</string>
+        <string>48.0007 - Cotinga</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -213,7 +261,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0008 - Nutti</string>
+        <string>48.0008 - Nutti</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -235,7 +283,7 @@
       </property>
       <item>
        <property name="text">
-        <string>0056 - BRS-Acarijó</string>
+        <string>49.0056 - BRS-Acarijó</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -243,7 +291,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0064 - BRS-Catarina</string>
+        <string>49.0064 - BRS-Catarina</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -251,7 +299,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0041 - BRS-Rubia</string>
+        <string>49.0041 - BRS-Rubia</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
@@ -259,7 +307,7 @@
       </item>
       <item>
        <property name="text">
-        <string>0001 - BRS-ASA</string>
+        <string>49.0001 - BRS-ASA</string>
        </property>
        <property name="checkState">
         <enum>Unchecked</enum>
