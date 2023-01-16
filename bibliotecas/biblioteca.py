@@ -53,3 +53,7 @@ def calculaSEDEX(cepOri="",cepDest="",Dimensoes=[],peso=0):
         print(f'O prazo de entrega é de {prazo} dias')
         return preco,prazo
     return 0,0
+def getPastaPrincipal():
+    from pathlib import Path
+    ROOT_DIR = Path(__file__).parent.parent
+    return ROOT_DIR

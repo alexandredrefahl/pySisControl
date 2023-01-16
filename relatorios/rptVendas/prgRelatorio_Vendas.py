@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 import locale
 import bibliotecas.mysqldb
+from bibliotecas.biblioteca import getPastaPrincipal
 
 class rptRelatorio_Vendas:
     def __init__(self,dataINI="", dataFIM=""):
@@ -15,7 +16,8 @@ class rptRelatorio_Vendas:
         self.dataFIM = dataFIM
         locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
         # Cria o canvas para produção do relatório
-        self.arquivo = os.path.join(os.path.dirname(__file__), "rptRelatorioVendas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.pdf')
+        dir_base = os.path.join(getPastaPrincipal(), "spool")
+        self.arquivo = os.path.join(dir_base, "rptRelatorioVendas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.pdf')
         self.c = canvas.Canvas(self.arquivo)
         self.pagina = 1
         self.db = bibliotecas.mysqldb.conecta_MySql()

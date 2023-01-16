@@ -4,6 +4,9 @@ from datetime import datetime
 import bibliotecas.mysqldb
 from PyQt5 import QtSql
 from locale import atof, setlocale, LC_ALL
+# Imports locais
+from bibliotecas.biblioteca import getPastaPrincipal
+
 setlocale(LC_ALL, 'pt_BR.UTF-8')
 
 class xlsPlanilha_Royalties:
@@ -15,7 +18,8 @@ class xlsPlanilha_Royalties:
         self.dataINI = dataINI
         self.dataFIM = dataFIM
         # Cria a planilha para produção do Relatório
-        dir_base = os.path.dirname(os.path.abspath(__file__))
+        #dir_base = os.path.dirname(os.path.abspath(__file__))
+        dir_base = os.path.join(getPastaPrincipal(), "spool")
         fileName = "xlsxPlanilha_Royalties-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.xlsx'
         self.arquivo = os.path.join(dir_base,fileName)
         self.db = bibliotecas.mysqldb.conecta_MySql()

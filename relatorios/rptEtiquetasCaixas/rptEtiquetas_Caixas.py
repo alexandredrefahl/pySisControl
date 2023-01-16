@@ -10,12 +10,14 @@ from datetime import datetime
 import locale
 #import bibliotecas.mysql
 from bibliotecas.mysqldb import conecta_MySql
+from bibliotecas.biblioteca import getPastaPrincipal
 #import locmysql
 
 class rptEtiquetas_Caixas:
     def __init__(self):
         # Cria o canvas para produção do relatório
-        self.arquivo = os.path.join(os.path.dirname(__file__), "rptEtiquetasCaixas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.pdf')
+        dir_base = os.path.join(getPastaPrincipal(), "spool")
+        self.arquivo = os.path.join(dir_base, "rptEtiquetasCaixas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.pdf')
         self.c = canvas.Canvas(self.arquivo)
         self.pagina = 1
         # Limites das Etiquetas (Papel PIMACO 6288)
@@ -157,8 +159,9 @@ class rptEtiquetas_Caixas:
         print(fonte)
         Codigo = barcode.get("Code128",varCEP,writer=ImageWriter())
         options = dict(text_distance=4,font_size=10,font_path=fonte,module_height=11)
-        arq = Codigo.save(os.path.join(os.path.dirname(__file__), str(varCEP)), options)
-        CodigoBarras = os.path.join(os.path.dirname(__file__), arq)
+        dir_base = os.path.join(getPastaPrincipal(), "tmp")
+        arq = Codigo.save(os.path.join(dir_base, str(varCEP)), options)
+        CodigoBarras = os.path.join(dir_base, arq)
         self.c.drawImage(CodigoBarras, self.Eti_XI[num] + (18 * mm), self.Eti_YI[num] - (99 * mm),height=(20*mm), width=(65*mm), preserveAspectRatio=False)
         # Campos de Dados
         lin = self.Eti_YI[num] - (16.5 * mm)

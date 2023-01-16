@@ -19,12 +19,13 @@ class frmRelatorioRoyalties(QtWidgets.QDialog):
         self.ui.txtDataFIM.setDateTime(QDateTime.currentDateTime())
         self.ui.txtDatINI.setDateTime(QDateTime.currentDateTime())
 
+
     def btRelatorio_clicked(self):
         iterator = QTreeWidgetItemIterator(self.ui.treeWidget, QTreeWidgetItemIterator.Checked)
         cods = []
         while iterator.value():
             item = iterator.value()
-            print(item.text(0)[:7])
+            #print(item.text(0)[:7])
             cods.append(item.text(0)[:7])
             iterator += 1
         ODF = xlsPlanilha_Royalties(cods, dataINI=self.ui.txtDatINI.date().toString('yyyy-MM-dd'), dataFIM=self.ui.txtDataFIM.date().toString('yyyy-MM-dd'))

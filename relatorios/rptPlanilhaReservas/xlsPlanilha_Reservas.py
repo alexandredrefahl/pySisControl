@@ -1,8 +1,10 @@
 import xlsxwriter
 import os
 from datetime import datetime
-import bibliotecas.mysqldb
 from PyQt5 import QtSql
+# Imports Locais
+import bibliotecas.mysqldb
+from bibliotecas.biblioteca import getPastaPrincipal
 
 class xlsPlanilha_Reservas:
 
@@ -12,10 +14,11 @@ class xlsPlanilha_Reservas:
         self.Ordem = ordem
         self.Criterio = criterio
         # Cria o canvas para produção do relatório
-        self.arquivo = os.path.join(os.path.dirname(__file__),"xlsxPlanilha_Reservas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.xlsx')
+        dir_base = os.path.join(getPastaPrincipal(), "spool")
+        self.arquivo = os.path.join(dir_base, "xlsxPlanilha_Reservas-" + datetime.today().strftime('%d-%m-%Y-%H-%M-%S') + '.xlsx')
         self.db = bibliotecas.mysqldb.conecta_MySql()
-        self.row=0
-        self.col=0
+        self.row = 0
+        self.col = 0
 
     def define_formatos(self):
         # Formatação TITULO DO RELATORIO
