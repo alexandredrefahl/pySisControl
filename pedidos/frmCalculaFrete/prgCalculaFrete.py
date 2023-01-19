@@ -19,12 +19,7 @@ class frmCalculaFrete(QDialog):
     volume = 0
     mudas = 0
     TamCaixa = ""
-
     # Só define o id para carregar o orçamento e Executa tudo o outro inicializador
-    def __init__(self,IdReserva):
-        self.idReserva = IdReserva
-        self.__init__()
-        self.Carrega_Dados_Reserva(IdReserva)
 
     # Inicializador Padrão sem parâmetros
     def __init__(self):
@@ -42,7 +37,6 @@ class frmCalculaFrete(QDialog):
         self.ui.txtValFrete.editingFinished.connect(self.txtValFrete_editingFinished)
         self.ui.tblOrcamento.cellChanged.connect(self.tblOrcamento_CellChanged)
         self.ui.tblOrcamento.mudancaContagemLinhas.connect(self.tblOrcamento_mudancaContagemLinhas)
-
         # inicializa as informações.
         self.db = conecta_MySql()
         self.carrega_combo()
@@ -56,6 +50,8 @@ class frmCalculaFrete(QDialog):
         self.ui.tblOrcamento.setColumnWidth(4, 70)
         self.ui.tblOrcamento.setColumnWidth(5, 70)
         self.ui.tblOrcamento.setAlternatingRowColors(1)
+        # Inicializa a Variavel
+        self.idReserva = -1
         self.show()
 
     def carrega_combo(self):
@@ -396,12 +392,14 @@ class frmCalculaFrete(QDialog):
         QtWidgets.QMessageBox.information(self, "Confirmação", "Cotações Enviadas com sucesso",
                                           QtWidgets.QMessageBox.Ok)
 
-    def Carrega_Dados_Reserva(self,IdReserva):
-        print("Carregar dados da reserva " + str(IdReserva))
+    def Carrega_Dados_Reserva(self):
+        print("Carregar dados da reserva " + str(self.idReserva))
         DadosReserva = QSqlQueryModel(self)
-        DadosReserva.setQuery('SELECT * FROM Reservas WHERE id='+str(IdReserva))
+        DadosReserva.setQuery('SELECT * FROM Reservas WHERE id='+str(self.idReserva))
         DadosItens = QSqlQueryModel(self)
-        DadosItens.setQuery('SELECT * FROM Reservas_Itens WHERE Doc_ID='+str(IdReserva))
+        DadosItens.setQuery('SELECT * FROM Reservas_Itens WHERE Doc_ID='+str(self.idReserva))
         if DadosReserva.rowCount() == 1:
-            print(DadosReserva.record(0).value("Nome"))
+            varCEP = DadosReserva.record(0).value("CEP")
+            print(varCEP)
+            self.ui.txtCEP.setText(varCEP)
         print("Linhas:", str(self.model.rowCount()))

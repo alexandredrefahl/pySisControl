@@ -15,8 +15,6 @@ class dlgSelecaoClientes(QtWidgets.QDialog):
 
         self.ui.btConfirmar.clicked.connect(self.on_Concluido)
         self.ui.btCancelar.clicked.connect(self.close)
-        # Carrega o banco de dados
-        #self.db1 = conecta_MySql()
 
         # Carrega o modelo dos clientes
         self.Carrega_Clientes()
