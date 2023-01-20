@@ -2,7 +2,8 @@
 import datetime
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QLineEdit, QComboBox, QFrame, QTableWidget, QPlainTextEdit, QLabel, QGroupBox
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QLineEdit, QComboBox, QFrame, QTableWidget, QPlainTextEdit, \
+    QGroupBox
 from PyQt5.QtCore import QDateTime
 from PyQt5.QtSql import *
 # Imports Locais
@@ -16,6 +17,7 @@ import locale
 import re
 # Imports de Bibliotecas Externas
 import pycep_correios
+from mysql.connector import Error
 
 
 class frmPedido(QtWidgets.QDialog):
@@ -25,6 +27,12 @@ class frmPedido(QtWidgets.QDialog):
 
         self.ui = Ui_frmPedido()
         self.ui.setupUi(self)
+
+        # Define as variáveis globais
+        self.mdlProdutos = None
+        self.mdlForma = None
+        self.mdlTransportadoras = None
+        self.dlgProcuraCliente = None
 
         # Define o padrão numérico para a representação
         locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
@@ -153,7 +161,6 @@ class frmPedido(QtWidgets.QDialog):
     def btCEP_clicked(self):
         if len(self.ui.txtCEP.text()) < 8:
             return
-        # from pycep_correios import CEPInvalido
         try:
             cep = self.ui.txtCEP.text().replace("-", "")
             endereco = pycep_correios.consultar_cep(cep)
@@ -239,7 +246,7 @@ class frmPedido(QtWidgets.QDialog):
             varDesc = QTableWidgetItem("Parc. " + str(n + 1) + "/" + str(len(percParcelas)))
             varDesc.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
             varVal = QTableWidgetItem(locale.format_string('%.2f', (
-                        locale.atof(self.ui.txtTOTALGERAL.text()) * (int(percParcelas[n]) / 100))))
+                    locale.atof(self.ui.txtTOTALGERAL.text()) * (int(percParcelas[n]) / 100))))
             varVal.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
             self.ui.tblParcelas.setItem(r, 0, varData)
             self.ui.tblParcelas.setItem(r, 1, varDesc)
@@ -256,7 +263,7 @@ class frmPedido(QtWidgets.QDialog):
             # Cria um Query Model para pegar os dados do cliente
             cliente = QtSql.QSqlQueryModel(self)
             cliente.setQuery(QtSql.QSqlQuery(SQL))
-            # Pega o único Record que se espera encontrar
+            # Pega o único Registro que se espera encontrar
             DR = cliente.record(0)
             # Começa a preeencher os campos do Formulário
             self.ui.txtNome.setText(DR.value("cliente"))
@@ -282,7 +289,7 @@ class frmPedido(QtWidgets.QDialog):
                 self.ui.rdPF.setChecked(True)
             elif DR.value('PFPJ') == "J":
                 self.ui.rdPJ.setChecked(True)
-            self.ui.txtCNPJ_CPF.setText(re.sub('\W+', '', DR.value('CNPJ_CPF')))
+            self.ui.txtCNPJ_CPF.setText(re.sub("\W+", '', DR.value('CNPJ_CPF')))
             self.ui.txtContato.setText(DR.value('contato'))
         elif tabela == "docs":
             # ***** NOTAS FISCAIS *****
@@ -297,19 +304,18 @@ class frmPedido(QtWidgets.QDialog):
         varPeso = 0
         for row in range(0, numRows):
             # Monta a SQL Base
-            sql = "SELECT mercadoria,clone,peso FROM selecao_clones WHERE mercadoria=" + self.ui.tblItens.item(row, 0).text() + " AND Clone=" + self.ui.tblItens.item(row, 1).text()
+            sql = "SELECT mercadoria,clone,peso FROM selecao_clones WHERE mercadoria=" + self.ui.tblItens.item(row,
+                                                                                                               0).text() + " AND Clone=" + self.ui.tblItens.item(
+                row, 1).text()
             # Cria um Query Model para pegar os dados do produto
             Mercadoria = QtSql.QSqlQueryModel(self)
             Mercadoria.setQuery(QtSql.QSqlQuery(sql))
-            # Pega o único Record que se espera encontrar
+            # Pega o único Registro que se espera encontrar
             DR = Mercadoria.record(0)
             # Começa a preeencher os campos do Formulário
             varMudas += int(self.ui.tblItens.item(row, 3).text())
             varTotal += locale.atof(self.ui.tblItens.item(row, 5).text())
             varPeso += int(self.ui.tblItens.item(row, 3).text()) * DR.value("peso")
-            # Limpar a memória
-            Mercadoria = None
-            DR = None
         # Atualiza Campos individuais
         self.ui.txtTotMudas.setText(str(varMudas))
         self.ui.txtValMerc.setText(locale.format_string('%.2f', varTotal))
@@ -413,11 +419,11 @@ class frmPedido(QtWidgets.QDialog):
         # Se não passou na validação dos campos já retorna
         if not self.valida_campos():
             return
-        # Se passou pega no BD a próxima id para fazer a inclusão
+        # Se passou pega no BD a próxima ‘id’ para fazer a inclusão
         # Prepara as Strings SQL
         sql_Pedido = QtSql.QSqlQuery()
         sql_Pedido.prepare(
-            "INSERT INTO pedidos SET Data=:data,Cliente=:cliente,CodCli=:codcli,Endereco=:endereco,Num=:num,Bairro=:bairro,Cidade=:cidade,CodCidade=:codcidade,Estado=:estado,CEP=:cep,Pais=:pais,CodPais=:codpais,Fone=:fone,PFPJ=:pfpj,CNPJ_CPF=:cnpj_cpf,email=:email,Inscricao=:inscricao,Contato=:contato,Data_Digitacao=current_timestamp(),Vendedor=:vendedor,Status=:status,Aprovado=:data,AprovadoPor=:aprovador,Valor=:valor,NMudas=:mudas,NItens=:numitens,Prazo=:prazo,ForPag=:forpag,CFOP=:cfop,NaturezaOP=:natop,ModFrete=:modfrete,ValFrete=:valfrete,ValSeguro=:valseguro,ValDesconto=:valdesconto,Observacoes=:obs,Transportadora=:transportadora,TransportadoraID=:transportadoraid,Complemento=:complemento")
+            "INSERT INTO pedidos SET Data=:data,Cliente=:cliente,CodCli=:codcli,Endereco=:endereco,Num=:num,Bairro=:bairro,Cidade=:cidade,CodCidade=:codcidade,Estado=:estado,CEP=:cep,Pais=:pais,CodPais=:codpais,Fone=:fone,PFPJ=:pfpj,CNPJ_CPF=:cnpj_cpf,email=:email,Inscricao=:inscricao,Contato=:contato,Data_Digitacao=current_timestamp(),Vendedor=:vendedor,Status=:status,Aprovado=:data,AprovadoPor=:aprovador,Valor=:valor,NMudas=:mudas,NItens=:numitens,Prazo=:prazo,ForPag=:forpag,CFOP=:cfop,NaturezaOP=:natop,ModFrete=:modfrete,ValFrete=:valfrete,ValSeguro=:valseguro,ValDesconto=:valdesconto,Observacoes=:obs,Transportadora=:transportadora,TransportadoraID=:transportadoraid,Complemento=:complemento,Reserva=:reserva")
         # Preenche os valores
         sql_Pedido.bindValue(':data', self.ui.txtData.date())
         sql_Pedido.bindValue(':cliente', self.ui.txtNome.text())
@@ -461,6 +467,11 @@ class frmPedido(QtWidgets.QDialog):
         DR1 = self.mdlTransportadoras.record(self.ui.cmbTransportadora.currentIndex())
         sql_Pedido.bindValue(':transportadora', DR1.field(1).value())
         sql_Pedido.bindValue(':transportadoraid', DR1.field(0).value())
+        if len(self.ui.txtNumPedido.text()) > 0:
+            sql_Pedido.bindValue(":reserva", self.ui.txtNumPedido.text())
+        else:
+            sql_Pedido.bindValue(":reserva", "NULL")
+        Doc_ID = 0
         # Confirma se o pedido foi incluido com sucesso
         if sql_Pedido.exec():
             # **** INCLUSÃO DOS ITENS ****
@@ -486,7 +497,7 @@ class frmPedido(QtWidgets.QDialog):
                     query.first()
                     varDescricao = self.ui.tblItens.item(row, 2).text()
                     varNcm = query.value(9)
-                    print("NCM: ",varNcm)
+                    print("NCM: ", varNcm)
                     varQtde = int(self.ui.tblItens.item(row, 3).text())
                     varUnit = locale.atof(self.ui.tblItens.item(row, 4).text())
                     varTotal = locale.atof(self.ui.tblItens.item(row, 5).text())
@@ -518,13 +529,14 @@ class frmPedido(QtWidgets.QDialog):
                         print(sql_Itens.lastError().text())
                         print(sql_Itens.lastQuery())
                         print("Item " + str(row) + " Inserido: " + str(sql_Itens.lastInsertId()))
-                        DR = None
                         sql_Itens = None
                     except QSqlError as e:
-                        QMessageBox.critical(self,"Erro","Erro ao incluir os ítens do pedido\n" + e.text() + "\n" + sql_Itens.lastError(),QMessageBox.Ok)
+                        QMessageBox.critical(self, "Erro",
+                                             "Erro ao incluir os ítens do pedido\n" + e.text() + "\n" + sql_Itens.lastError(),
+                                             QMessageBox.Ok)
                         return
                 else:
-                    QMessageBox.critical(self,"Erro ao localizar dados da mercadoria\n" + query.lastQuery() + "\n" + query.lastError().text())
+                    QMessageBox.critical(self, "Erro", "Erro ao localizar dados da mercadoria\n" + query.lastQuery() + "\n" + query.lastError().text())
                     return
             # **** INCLUSÃO DAS PARCELAS ****
             # Percorre os ítens da tabela para fazer a inclusão
@@ -539,11 +551,11 @@ class frmPedido(QtWidgets.QDialog):
                     "INSERT INTO duplicatas SET Pedido_id=:pedido_id, Vencimento=:vencimento, Valor=:valor, Descricao=:descricao, Lancado=0, formaPag='01'")
                 # Prepara as variáveis no formato para inclusão
                 varParPedido_id = Doc_ID
-                tmpData = datetime.datetime.strptime(self.ui.tblParcelas.item(row,0).text(), "%d/%m/%Y")
-                varParVencimento = format(tmpData,"%Y-%m-%d")
-                #varParVencimento = self.ui.tblParcelas.item(row,0).text()
+                tmpData = datetime.datetime.strptime(self.ui.tblParcelas.item(row, 0).text(), "%d/%m/%Y")
+                varParVencimento = format(tmpData, "%Y-%m-%d")
+                # varParVencimento = self.ui.tblParcelas.item(row,0).text()
                 varParDescricao = self.ui.tblParcelas.item(row, 1).text()
-                varParValor = locale.atof(self.ui.tblParcelas.item(row,2).text())
+                varParValor = locale.atof(self.ui.tblParcelas.item(row, 2).text())
                 # Vincula as variáveis na SQL
                 sql_Parcelas.bindValue(":pedido_id", varParPedido_id)
                 sql_Parcelas.bindValue(":vencimento", varParVencimento)
@@ -557,53 +569,69 @@ class frmPedido(QtWidgets.QDialog):
                     print("Parcela " + str(row) + " Inserido: " + str(sql_Parcelas.lastInsertId()))
                     sql_Parcelas = None
                 except QSqlError as e:
-                    QMessageBox.critical(self,"Erro","Erro ao incluir as parcelas do pedido\n" + e.text() + "\n" + sql_Parcelas.lastError().text())
+                    QMessageBox.critical(self, "Erro",
+                                         "Erro ao incluir as parcelas do pedido\n" + e.text() + "\n" + sql_Parcelas.lastError().text())
                     return
         else:
             QMessageBox.critical(self, "Erro!", "Erro ao inserir dados do Pedido:\n" + sql_Pedido.lastError().text(),
                                  QMessageBox.Ok)
         # Após confirmar tudo certo, envia mensagem
-        QMessageBox.information(self,"Concluído!","Pedido incluído com sucesso!\nNúmero: " + str(Doc_ID) + "\n" + str(self.ui.tblItens.rowCount()) + " ítens\n" + str(self.ui.tblParcelas.rowCount()) + " Parcelas")
+        QMessageBox.information(self, "Concluído!", "Pedido incluído com sucesso!\nNúmero: " + str(Doc_ID) + "\n" + str(
+            self.ui.tblItens.rowCount()) + " ítens\n" + str(self.ui.tblParcelas.rowCount()) + " Parcelas")
+        # Verifica se este pedido está vinculado com alguma reserva e então dá baixa na reserva também se for o caso
+        if len(self.ui.txtNumPedido.text()) > 0:
+            idReserva = self.ui.txtNumPedido.text()
+            vConf = QMessageBox.question(self, "Confirmação", "Gostaria de marcar a reserva " + idReserva + " como atendida?", QMessageBox.Yes | QMessageBox.No)
+            if vConf == QMessageBox.Yes:
+                SQLReserva = "UPDATE Reservas SET Atendido=1 WHERE id=" + idReserva
+                try:
+                    qryAtendido = QtSql.QSqlQuery()
+                    qryAtendido.exec_(SQLReserva)
+                    print("Linhas afetadas: " + str(qryAtendido.numRowsAffected()))
+                    print("Erro:" + qryAtendido.lastError().text())
+                except Error as error:
+                    print(error)
+                finally:
+                    QMessageBox.information(self, "Confirmação", "A Reserva " + idReserva + " e TODOS os seus itens foram marcados como atendidos!", QMessageBox.Ok)
         # Prepara o formulário para nova inclusão
         self.Limpa_Campos()
 
     def tblItens_mudancaContagemLinhas(self):
         self.Atualiza_Totais()
 
-    def tblItens_CellChange(self,row, col):
-        try:
-            # Se for alterada a quantidade ou o valor
-            if self.ui.tblItens.currentItem().column() == 3 or self.ui.tblItens.currentItem().column() == 4:
-                cell = self.ui.tblItens.currentItem()
-                triggered = cell.text()
-                if col == 3:    # Quantidade
-                    varPreco = locale.atof(self.ui.tblItens.item(row, 4).text())
-                    varNewQtde = int(triggered)
-                if col == 4:    # Unitário
-                    varPreco = locale.atof(triggered)
-                    varNewQtde = int(self.ui.tblItens.item(row, 3).text())
-                varNewTotal = varPreco * varNewQtde
-                varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
-                varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
-                self.ui.tblItens.setItem(row, 5, varTotItem)
-                # Atualiza totais depois da alteração
-                self.Atualiza_Totais()
-        except:
-            pass
+    def tblItens_CellChange(self, row, col):
+        # Se for alterada a quantidade ou o valor
+        if self.ui.tblItens.currentItem().column() == 3 or self.ui.tblItens.currentItem().column() == 4:
+            cell = self.ui.tblItens.currentItem()
+            triggered = cell.text()
+            varPreco = 0
+            varNewQtde = 0
+            if col == 3:  # Quantidade
+                varPreco = locale.atof(self.ui.tblItens.item(row, 4).text())
+                varNewQtde = int(triggered)
+            if col == 4:  # Unitário
+                varPreco = locale.atof(triggered)
+                varNewQtde = int(self.ui.tblItens.item(row, 3).text())
+            varNewTotal = varPreco * varNewQtde
+            varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
+            varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
+            self.ui.tblItens.setItem(row, 5, varTotItem)
+            # Atualiza totais depois da alteração
+            self.Atualiza_Totais()
 
     def Limpa_Campos(self):
-        wid = self.ui.scrollAreaWidgetContents.findChild(QFrame,"frame")
-        print("FindWidget: ",wid.objectName())
-        Nomes = ["txtValor","txtValMerc","txtPesoB","txtValFrete","txtValSeguro","txtValDesconto","txtTotMerc",
-                 "txtTotFrete", "txtTotDesc", "txtTotImpostos", "txtTotDespesas", "txtTOTALGERAL" ]
+        wid = self.ui.scrollAreaWidgetContents.findChild(QFrame, "frame")
+        print("FindWidget: ", wid.objectName())
+        Nomes = ["txtValor", "txtValMerc", "txtPesoB", "txtValFrete", "txtValSeguro", "txtValDesconto", "txtTotMerc",
+                 "txtTotFrete", "txtTotDesc", "txtTotImpostos", "txtTotDespesas", "txtTOTALGERAL"]
         for widget in wid.children():
             if isinstance(widget, QLineEdit):
                 widget.setText("")
             if isinstance(widget, QComboBox):
                 widget.setCurrentIndex(0)
-            if isinstance(widget,QTableWidget):
+            if isinstance(widget, QTableWidget):
                 widget.setRowCount(0)
-            if isinstance(widget,QPlainTextEdit):
+            if isinstance(widget, QPlainTextEdit):
                 widget.setPlainText("")
             # Todos os Widgets que estão com o nome na lista
             if widget.objectName() in Nomes:
@@ -624,4 +652,3 @@ class frmPedido(QtWidgets.QDialog):
         self.ui.txtQtde.setText("0")
         # devolver o foco para o Primeiro Campo
         self.ui.txtData.setFocus()
-

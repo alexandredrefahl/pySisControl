@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Imports do Python
-from PyQt5.QtWidgets import *
 
 #Imports do Sistema
 from main import *
@@ -13,15 +12,13 @@ from pedidos.frmPesquisaReservas.prgPesquisaReservas import *
 from pedidos.frmCalculaFrete.prgCalculaFrete import *
 from pedidos.frmPedido.prgPedido import *
 from relatorios.rptEtiquetasCaixas.prgEtiquetasCaixas import *
-from relatorios.rptPlanilhaReservas.rptPlanilha_Reservas import *
 from relatorios.rptPlanilhaReservas.prgPlanilhaReservas import *
 from relatorios.txtRastreadores.prgImportaRastreadores import *
 from relatorios.txtPesoValor.prgImportaPesoValor import *
 from relatorios.rptVendas.rptRelatorioVendas import *
 from relatorios.rptRoyalties.prgRelatorioRoyalties import *
 
-import sys, os
-from datetime import datetime
+import sys
 
 class frmSisControl(QtWidgets.QMainWindow):
     # Construtor da Classe
@@ -47,6 +44,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         # Variável de controle para centralizar
         self.is_first_time = True
 
+    @QtCore.pyqtSlot()
     def actInclusaoReserva_triggered(self):
         frmReserva = frmReservas_Gui()
         subWindow = self.ui.mdiArea.addSubWindow(frmReserva)
@@ -54,6 +52,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actIncluirPedido_triggered(self):
         frmPed = frmPedido()
         subWindow = self.ui.mdiArea.addSubWindow(frmPed)
@@ -61,6 +60,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actBaixaFrascos_triggered(self):
         frmBaixa_Frascos = frmBaixaFrascos()
         subWindow = self.ui.mdiArea.addSubWindow(frmBaixa_Frascos)
@@ -68,6 +68,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actSimularFrete_triggered(self):
         frmSimulaFrete = frmCalculaFrete()
         subWindow = self.ui.mdiArea.addSubWindow(frmSimulaFrete)
@@ -75,6 +76,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actChecarEmail_triggered(self):
         frmEmailGui = frmEmail_Gui()
         subWindow = self.ui.mdiArea.addSubWindow(frmEmailGui)
@@ -82,6 +84,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actPesquisar_Reservas_triggered(self):
         frmPesquisaReservasGui = frmPesquisaReservas_Gui()
         subWindow = self.ui.mdiArea.addSubWindow(frmPesquisaReservasGui)
@@ -89,6 +92,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actRptPlanilha_Reservas_triggered(self):
         frmPlanilhaReserva_Gui = frmPlanilhaReservasGui()
         subWindow = self.ui.mdiArea.addSubWindow(frmPlanilhaReserva_Gui)
@@ -96,6 +100,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actRptEtiquetas_Caixas_triggered(self):
         frmRptEtiquetas = frmEtiquetasCaixas()
         subWindow = self.ui.mdiArea.addSubWindow(frmRptEtiquetas)
@@ -103,6 +108,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actRptRastreadores_triggered(self):
         frmRptRastreadores = frmImportaRastreadores()
         subWindow = self.ui.mdiArea.addSubWindow(frmRptRastreadores)
@@ -110,6 +116,7 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actRptPesoValor_triggered(self):
         frmRptPesoValor = frmImportaPesoValor()
         subWindow = self.ui.mdiArea.addSubWindow(frmRptPesoValor)
@@ -117,18 +124,23 @@ class frmSisControl(QtWidgets.QMainWindow):
         self.center_subwindow(subWindow)
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def actInventario_triggered(self):
         frameInventario = frmInventario()
         subWindow = self.ui.mdiArea.addSubWindow(frameInventario)
         subWindow.resize(frameInventario.size())
         self.center_subwindow(subWindow)
         subWindow.showNormal()
+
+    @QtCore.pyqtSlot()
     def actVendas_triggered(self):
         frameVendas = dlgRelatorioVendas()
         subWindow = self.ui.mdiArea.addSubWindow(frameVendas)
         subWindow.resize(frameVendas.size())
         self.center_subwindow(subWindow)
         subWindow.showNormal()
+
+    @QtCore.pyqtSlot()
     def actRoyalties_triggered(self):
         frameRoyalties = frmRelatorioRoyalties()
         subWindow = self.ui.mdiArea.addSubWindow(frameRoyalties)

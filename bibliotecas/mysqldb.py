@@ -27,7 +27,7 @@ def getPort():
     return port
 
 def conecta_MySql() -> object:
-    db = QtSql.QSqlDatabase().addDatabase('QMYSQL')
+    db1 = QtSql.QSqlDatabase().addDatabase('QMYSQL')
     # Seleção automática via Ping de qual endereço vai usar Local ou Remoto
     # Tenta o local primeiro porque quando for remoto ele não vai retornar
     #if ping_ip(host):
@@ -36,17 +36,17 @@ def conecta_MySql() -> object:
     #elif ping_ip(remo):
     #db.setHostName(remo)
     #curHost = remo
-    db.setHostName(host)
+    db1.setHostName(host)
     curHost = host
-    db.setPort(port)
-    db.setDatabaseName(database)
-    db.setUserName(user)
-    db.setPassword(pasw)
-    if db.open():
+    db1.setPort(port)
+    db1.setDatabaseName(database)
+    db1.setUserName(user)
+    db1.setPassword(pasw)
+    if db1.open():
         print('Servidor MySQL conectado em: ',curHost)
-        return db
+        return db1
     else:
-        print("Erro ao conectar ao servidor MySQL: ", db.lastError().text())
+        print("Erro ao conectar ao servidor MySQL: ", db1.lastError().text())
 
 def ping_ip(current_ip_address):
     try:

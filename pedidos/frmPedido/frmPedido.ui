@@ -19,7 +19,6 @@
      <property name="font">
       <font>
        <family>Noto Sans</family>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -36,7 +35,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-1182</y>
+        <y>-22</y>
         <width>740</width>
         <height>1768</height>
        </rect>
@@ -64,14 +63,13 @@
            <rect>
             <x>10</x>
             <y>120</y>
-            <width>56</width>
+            <width>81</width>
             <height>28</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -97,7 +95,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -126,7 +123,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -145,9 +141,6 @@
              <family>Noto Sans</family>
             </font>
            </property>
-           <property name="textAlignment">
-            <set>AlignCenter</set>
-           </property>
           </column>
           <column>
            <property name="text">
@@ -157,9 +150,6 @@
             <font>
              <family>Noto Sans</family>
             </font>
-           </property>
-           <property name="textAlignment">
-            <set>AlignCenter</set>
            </property>
           </column>
           <column>
@@ -227,15 +217,11 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
           <property name="currentIndex">
            <number>1</number>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QComboBox::AdjustToMinimumContentsLength</enum>
           </property>
           <item>
            <property name="text">
@@ -275,7 +261,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -311,7 +296,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -321,14 +305,13 @@
            <rect>
             <x>10</x>
             <y>160</y>
-            <width>70</width>
+            <width>81</width>
             <height>28</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -354,7 +337,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -377,7 +359,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -393,14 +374,13 @@
            <rect>
             <x>10</x>
             <y>240</y>
-            <width>50</width>
+            <width>81</width>
             <height>28</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -416,14 +396,13 @@
            <rect>
             <x>10</x>
             <y>15</y>
-            <width>40</width>
+            <width>51</width>
             <height>20</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -446,7 +425,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -466,7 +444,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -489,7 +466,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -512,7 +488,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -538,7 +513,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -561,7 +535,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -588,7 +561,6 @@
            <font>
             <family>Noto Sans</family>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -605,16 +577,15 @@
          <widget class="QLabel" name="label_22">
           <property name="geometry">
            <rect>
-            <x>520</x>
+            <x>509</x>
             <y>800</y>
-            <width>80</width>
+            <width>81</width>
             <height>28</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -637,7 +608,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -663,7 +633,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -686,7 +655,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -709,7 +677,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -732,7 +699,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -749,7 +715,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -765,14 +730,13 @@
            <rect>
             <x>10</x>
             <y>200</y>
-            <width>50</width>
+            <width>81</width>
             <height>28</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -798,7 +762,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -821,7 +784,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -834,7 +796,7 @@
            <rect>
             <x>10</x>
             <y>85</y>
-            <width>170</width>
+            <width>211</width>
             <height>28</height>
            </rect>
           </property>
@@ -842,7 +804,6 @@
            <font>
             <family>Noto Sans</family>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -868,15 +829,11 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
           <property name="currentIndex">
            <number>0</number>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QComboBox::AdjustToMinimumContentsLength</enum>
           </property>
           <item>
            <property name="text">
@@ -906,7 +863,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -929,7 +885,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -945,14 +900,13 @@
            <rect>
             <x>210</x>
             <y>15</y>
-            <width>45</width>
+            <width>51</width>
             <height>20</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -975,7 +929,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -998,7 +951,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1017,7 +969,7 @@
            <rect>
             <x>10</x>
             <y>430</y>
-            <width>170</width>
+            <width>191</width>
             <height>28</height>
            </rect>
           </property>
@@ -1025,7 +977,6 @@
            <font>
             <family>Noto Sans</family>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -1051,7 +1002,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -1074,15 +1024,11 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
           <property name="currentIndex">
            <number>0</number>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QComboBox::AdjustToMinimumContentsLength</enum>
           </property>
           <item>
            <property name="text">
@@ -1122,7 +1068,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1145,7 +1090,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1168,7 +1112,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1191,7 +1134,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1208,7 +1150,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1222,7 +1163,7 @@
          <widget class="QDateEdit" name="txtDataPrev">
           <property name="geometry">
            <rect>
-            <x>590</x>
+            <x>600</x>
             <y>880</y>
             <width>110</width>
             <height>30</height>
@@ -1231,7 +1172,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
             <kerning>true</kerning>
            </font>
@@ -1255,7 +1195,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1272,7 +1211,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1295,7 +1233,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1318,7 +1255,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1345,7 +1281,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1368,7 +1303,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1391,7 +1325,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1414,7 +1347,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1437,7 +1369,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1460,7 +1391,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1484,7 +1414,6 @@
            <font>
             <family>Noto Sans</family>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -1510,7 +1439,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1533,7 +1461,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1550,7 +1477,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1582,7 +1508,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -1606,7 +1531,6 @@
            <font>
             <family>Noto Sans</family>
             <pointsize>12</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -1629,7 +1553,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1653,7 +1576,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1677,7 +1599,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1701,7 +1622,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1725,7 +1645,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1749,7 +1668,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -1773,7 +1691,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1800,7 +1717,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1827,7 +1743,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1854,7 +1769,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1881,7 +1795,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1908,7 +1821,6 @@
             <font>
              <family>Noto Sans</family>
              <pointsize>10</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -1935,7 +1847,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -1955,7 +1866,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2000,7 +1910,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -2029,7 +1938,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2049,7 +1957,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2069,7 +1976,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2089,7 +1995,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2109,7 +2014,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2129,7 +2033,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2149,7 +2052,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2175,7 +2077,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2201,7 +2102,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2221,7 +2121,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2244,7 +2143,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2264,7 +2162,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2287,7 +2184,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2304,7 +2200,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2327,7 +2222,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2335,7 +2229,7 @@
          <widget class="QLineEdit" name="txtPesoB">
           <property name="geometry">
            <rect>
-            <x>605</x>
+            <x>600</x>
             <y>800</y>
             <width>70</width>
             <height>30</height>
@@ -2344,7 +2238,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2367,7 +2260,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2384,7 +2276,6 @@
           <property name="font">
            <font>
             <family>Noto Sans</family>
-            <weight>50</weight>
             <bold>false</bold>
            </font>
           </property>
@@ -2406,6 +2297,50 @@
           </property>
           <property name="maxLength">
            <number>14</number>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="txtNumPedido">
+          <property name="geometry">
+           <rect>
+            <x>600</x>
+            <y>840</y>
+            <width>70</width>
+            <height>30</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_49">
+          <property name="geometry">
+           <rect>
+            <x>490</x>
+            <y>840</y>
+            <width>101</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string>Nº da Reserva:</string>
           </property>
          </widget>
         </widget>
@@ -2489,10 +2424,12 @@
   <tabstop>cmbMercadoria</tabstop>
   <tabstop>txtValor</tabstop>
   <tabstop>btAdd</tabstop>
+  <tabstop>scrollArea</tabstop>
   <tabstop>tblItens</tabstop>
   <tabstop>txtVendedor</tabstop>
   <tabstop>txtPesoB</tabstop>
   <tabstop>cmbPres</tabstop>
+  <tabstop>txtNumPedido</tabstop>
   <tabstop>cmbStatus</tabstop>
   <tabstop>txtDataPrev</tabstop>
   <tabstop>txtAutorizado</tabstop>
@@ -2506,7 +2443,6 @@
   <tabstop>tblParcelas</tabstop>
   <tabstop>btCancelar</tabstop>
   <tabstop>btIncluir</tabstop>
-  <tabstop>scrollArea</tabstop>
  </tabstops>
  <resources/>
  <connections/>

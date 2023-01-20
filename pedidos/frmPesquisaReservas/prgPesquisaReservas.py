@@ -1,7 +1,10 @@
-from PyQt5 import QtCore, QtWidgets
+# Imports do Sistema
+import locale
+# Imports do PyQt5
+from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox, QInputDialog, QLineEdit, QTreeWidgetItemIterator
 from PyQt5.QtGui import QColor
-import locale
+# Imports Locais
 from bibliotecas.mysqldb import *
 from pedidos.frmCalculaFrete.prgCalculaFrete import frmCalculaFrete
 from pedidos.frmPesquisaReservas.frmPesquisaReservas import Ui_frmPesquisaReservas
@@ -9,13 +12,18 @@ import bibliotecas.mysqldb
 import mysql.connector
 from mysql.connector import Error
 
+
 class frmPesquisaReservas_Gui(QtWidgets.QDialog):
 
-    # Construtor da Classe
     def __init__(self):
         super().__init__()
         self.ui = Ui_frmPesquisaReservas()
         self.ui.setupUi(self)
+        # Definição das variáveis usadas globalmente
+        self.Selecionados = None
+        self.itens = None
+        self.ComboModel = None
+        self.idItem = None
         # Define o padrão numérico para a representação
         locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
         # Atribui as ações dos botoes
@@ -52,18 +60,33 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         self.db = conecta_MySql()
         self.carrega_combo()
         # Define as variáveis Globais desse módulo
-        #self.corReserva = QColor(24, 106, 59)
+        # self.corReserva = QColor(24, 106, 59)
         self.corReserva = QColor(130, 190, 105)
-        #self.corAtendida = QColor(255,195,0)
+        # self.corAtendida = QColor(255,195,0)
         self.corAtendida = QColor(235, 235, 129)
         # Carrega as reservas na tela
         self.carrega_reservas(0)
-        self.clique=0
+        self.clique = 0
         self.show()
 
+    def resizeEvent(self, event: QtGui.QResizeEvent) -> None:
+        largTotal = self.ui.tblReservas.size().width()
+        # Formata os DataGrids
+        self.ui.tblReservas.setColumnWidth(0, int(largTotal * 0.06))  # id - 50
+        self.ui.tblReservas.setColumnWidth(1, int(largTotal * 0.11))  # Data - 85
+        self.ui.tblReservas.setColumnWidth(2, int(largTotal * 0.24))  # Nome - 200
+        self.ui.tblReservas.setColumnWidth(3, int(largTotal * 0.15))  # Fone - 125
+        self.ui.tblReservas.setColumnWidth(4, int(largTotal * 0.12))  # Email - 100
+        self.ui.tblReservas.setColumnWidth(5, int(largTotal * 0.12))  # Cidade - 100
+        self.ui.tblReservas.setColumnWidth(6, int(largTotal * 0.05))  # Uf - 40
+        self.ui.tblReservas.setColumnWidth(7, int(largTotal * 0.10))  # Prazo - 85
+        self.ui.tblReservas.setColumnWidth(8, int(largTotal * 0.04))  # Atendido - 35
+
+    @QtCore.pyqtSlot()
     def aplica_filtro(self):
         self.carrega_reservas(1)
 
+    @QtCore.pyqtSlot()
     def envia_whats(self):
         # Se não tiver nenhuma reserva Selecionada já sai
         if len(self.ui.tblReservas.selectionModel().selectedRows()) == 0:
@@ -71,7 +94,6 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         # Pega os dados da linha clicada identifica o campo
         SelRows = self.ui.tblReservas.selectedIndexes()
         row = SelRows[0].row()
-        idReserva = self.ui.tblReservas.item(row, 0).text()
         whats = self.ui.tblReservas.item(row, 3).text()
         print("Whats do Cliente " + whats)
         # Se tiver número registrado
@@ -83,6 +105,8 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             print("Whats do Cliente já processado: " + whats)
             firefox = webbrowser.Mozilla("/usr/bin/firefox")
             firefox.open("https://web.whatsapp.com/send?phone=55" + whats)
+
+    @QtCore.pyqtSlot()
     def rdProdutos_change(self):
         if self.ui.rdProdutos.isChecked():
             self.ui.treeWidget.setVisible(True)
@@ -90,6 +114,7 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         else:
             self.ui.treeWidget.setVisible(False)
             self.ui.grpSelecao.setVisible(False)
+
     def carrega_reservas(self, modo):
         # Modo 0 = Traz todos os resultados | Modo 1 = Filtra os Resultados
         # self.model = QtSql.QSqlTableModel(self)
@@ -98,7 +123,7 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         # Monta a SQL Base
         SQL = "SELECT id,data,nome,fone,Email,cidade,uf,prazo,atendido,confirmada FROM controle.reservas"
         if modo == 0:
-            #SQL = "SELECT id,data,nome,fone,Email,cidade,uf,prazo,atendido,confirmada FROM controle.reservas"
+            # SQL = "SELECT id,data,nome,fone,Email,cidade,uf,prazo,atendido,confirmada FROM controle.reservas"
             pass
         if modo == 1:
             if self.ui.rdNome.isChecked():
@@ -112,39 +137,38 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
                 print(SQL)
         # Executa a SQL Pura ou Filtrada
         self.model.setQuery(QtSql.QSqlQuery(SQL))
-        #self.model.setTable("reservas")
-        #self.model.select()
+        # self.model.setTable("reservas")
+        # self.model.select()
         print("Selecionadas: " + str(self.model.rowCount()))
-        # Se fosse trabalhar com dados puros usaria o tblViewModelBased mas como quero melhor controle da formatacao
+        # Se fosse trabalhar com dados puros usaria o tblViewModelBased, mas como quero melhor controle da formatacao
         # vou usar a estratégia e povoar à mão mesmo.
-        i = 0
         for i in range(self.model.rowCount()):
             # Data Row
             DR = self.model.record(i)
             self.ui.tblReservas.insertRow(self.ui.tblReservas.rowCount())
             r = self.ui.tblReservas.rowCount() - 1
             # Organiza as variáveis antes de fazer a inserção
-            #ID
+            # ID
             varId = QTableWidgetItem('{:04}'.format(DR.value("Id")))
             varId.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignCenter)
-            #Data
+            # Data
             tmpData = DR.value("Data")
             varData = QTableWidgetItem(tmpData.toString("dd/MM/yyyy"))
             varData.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignCenter)
             # Nome
             varNome = QTableWidgetItem(DR.value("Nome"))
             # Fone
-            varFone= QTableWidgetItem(DR.value("Fone"))
+            varFone = QTableWidgetItem(DR.value("Fone"))
             # Email
             varEmail = QTableWidgetItem(DR.value("Email"))
             varCidade = QTableWidgetItem(DR.value("Cidade"))
             varUF = QTableWidgetItem(DR.value("Uf"))
             varUF.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignCenter)
-            #varPrazo
+            # varPrazo
             tmpPrazo = DR.value("Prazo")
             varPrazo = QTableWidgetItem(tmpPrazo.toString("dd/MM/yyyy"))
             varPrazo.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignCenter)
-            #varAtendido
+            # varAtendido
             if DR.value("Atendido") == 1:
                 varAtendido = QTableWidgetItem("X")
             else:
@@ -162,8 +186,8 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             self.ui.tblReservas.setItem(r, 8, varAtendido)
             # Se for uma reserva confirmada
             if DR.value("confirmada") == 1 and DR.value("Atendido") == 0:
-            # Marca em verde as linhas das reservas confirmadas
-                for j in range(0,9):
+                # Marca em verde as linhas das reservas confirmadas
+                for j in range(0, 9):
                     self.ui.tblReservas.item(r, j).setBackground(self.corReserva)
             # Se for uma reserva atendida
             if DR.value("Atendido") == 1:
@@ -173,28 +197,28 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         self.Selecionados = self.ui.tblReservas.selectionModel()
         # Ao clicar dispara "carrega_itens"
         self.Selecionados.selectionChanged.connect(self.carrega_itens)
-        # Limpa o grid de ítens para que não haja confusão com os selecionados
+        # Limpa o grid de ítens, para não haver confusão com os selecionados
         self.ui.tblItens.setRowCount(0)
 
     def carrega_itens(self):
         indexRows = self.Selecionados.selectedRows()
-        row=0
-        if (len(indexRows)<=0):
+        row = 0
+        if len(indexRows) <= 0:
             return 0
         for indexRow in sorted(indexRows):
             row = indexRow.row()
 
-        #Limpa a tabela dos itens
+        # Limpa a tabela dos itens
         self.ui.tblItens.setRowCount(0)
         self.itens = QtSql.QSqlQueryModel(self)
-        if (row>=0):
+        if row >= 0:
             varID = self.model.record(row).value("id")
         else:
-            varID= -1
+            varID = -1
         # Monta a SQL Base
         SQL = "SELECT id,Mercadoria,Clone,Descricao,Quantidade,Preco FROM controle.reservas_itens WHERE Doc_ID=" + str(varID)
         self.itens.setQuery(QtSql.QSqlQuery(SQL))
-        for i in range(0,self.itens.rowCount()):
+        for i in range(0, self.itens.rowCount()):
             # Data Row
             DR = self.itens.record(i)
             self.ui.tblItens.insertRow(self.ui.tblItens.rowCount())
@@ -225,12 +249,12 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             self.ui.tblItens.setItem(r, 4, varQtde)
             self.ui.tblItens.setItem(r, 5, varValor)
             # Formatar o DataGrid
-            self.ui.tblItens.setColumnWidth(0, 50)  # id
-            self.ui.tblItens.setColumnWidth(1, 50)  # Merc
-            self.ui.tblItens.setColumnWidth(2, 50)  # Clone
-            self.ui.tblItens.setColumnWidth(3, 468) # Descrição
-            self.ui.tblItens.setColumnWidth(4, 80)  # Quantidade
-            self.ui.tblItens.setColumnWidth(5, 80)  # Valor
+            self.ui.tblItens.setColumnWidth(0, 50)   # id
+            self.ui.tblItens.setColumnWidth(1, 50)   # Merc
+            self.ui.tblItens.setColumnWidth(2, 50)   # Clone
+            self.ui.tblItens.setColumnWidth(3, 468)  # Descrição
+            self.ui.tblItens.setColumnWidth(4, 80)   # Quantidade
+            self.ui.tblItens.setColumnWidth(5, 80)   # Valor
 
     def carrega_combo(self):
         self.ComboModel = QtSql.QSqlTableModel(self)
@@ -239,6 +263,7 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         self.ui.cmbVariedade.setModel(self.ComboModel)
         self.ui.cmbVariedade.setModelColumn(self.ComboModel.fieldIndex("Descricao"))
 
+    @QtCore.pyqtSlot()
     def btEmail_Click(self):
         # Se não tiver nenhuma reserva Selecionada já sai
         if len(self.ui.tblReservas.selectionModel().selectedRows()) == 0:
@@ -254,11 +279,12 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         else:
             QMessageBox.critical(self, "Erro", "O Cliente não tem e-mail registrado na reserva", QMessageBox.Ok)
             return
-
-
+        
+    @QtCore.pyqtSlot()
     def btWhatsApp_Click(self):
         self.envia_whats()
 
+    @QtCore.pyqtSlot()
     def btOrcamento_Click(self):
         # Se não tiver nenhuma reserva Selecionada já sai
         if len(self.ui.tblReservas.selectionModel().selectedRows()) == 0:
@@ -275,20 +301,23 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         subWindow.resize(frmOrcamento.size())
         subWindow.showNormal()
 
+    @QtCore.pyqtSlot()
     def on_cmbVariedade_changed(self):
         DR = self.ComboModel.record(self.ui.cmbVariedade.currentIndex())
         varPreco = locale.format_string('%.2f', DR.field(4).value())
         self.ui.txtValor.setText(varPreco)
         if self.ui.txtQtde.text() == "":
-            valItem=0
+            valItem = 0
         else:
-            valItem=int(self.ui.txtQtde.text())
-        varTotal = locale.format_string('%.2f',(valItem* DR.field(4).value()))
+            valItem = int(self.ui.txtQtde.text())
+        varTotal = locale.format_string('%.2f', (valItem * DR.field(4).value()))
         self.ui.txtTotalItem.setText(varTotal)
 
+    @QtCore.pyqtSlot()
     def on_txtQtde_changed(self):
         self.on_cmbVariedade_changed()
 
+    @QtCore.pyqtSlot()
     def on_txtValor_changed(self):
         self.total_do_item()
 
@@ -296,8 +325,9 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         valor = locale.atof(self.ui.txtValor.text())
         qtde = int(self.ui.txtQtde.text())
         total = valor * qtde
-        self.ui.txtTotalItem.setText(locale.format_string('%.2f',total))
+        self.ui.txtTotalItem.setText(locale.format_string('%.2f', total))
 
+    @QtCore.pyqtSlot()
     def on_btIncluir_clicked(self):
         # Pega o Datarow do modelo que contém as informações do ítem
         DR = self.ComboModel.record(self.ui.cmbVariedade.currentIndex())
@@ -310,13 +340,13 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         varForma = "Muda Aclimatizada"
         # Pega o ID da reserva que vai ser modificada
         SelRow = self.ui.tblReservas.selectedIndexes()
-        row=SelRow[0].row()
+        row = SelRow[0].row()
         idParent = self.ui.tblReservas.item(row, 0).text()
-        print("ID da Reserva: " + idParent )
+        print("ID da Reserva: " + idParent)
         # Monta a SQL de Inclusão
         SQL = "INSERT INTO reservas_itens (`Doc_ID`,`Mercadoria`,`Clone`,`Descricao`,`Quantidade`,`Preco`,`Forma`) VALUES (%s,%s,%s,%s,%s,%s,%s)"
         # Parametros da inclusão
-        args = (idParent,varMerc,varClone,varDescricao,varQtde,varValor,varForma)
+        args = (idParent, varMerc, varClone, varDescricao, varQtde, varValor, varForma)
         try:
             # define a connection string
             conn = mysql.connector.connect(host=bibliotecas.mysqldb.curHost, user=bibliotecas.mysqldb.user,
@@ -329,31 +359,29 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         except Error as error:
             print(error)
         finally:
-            #cursor.close()
-            #conn.close()
             print("Item incluido com sucesso")
         # Atualiza Itens na view
         self.carrega_itens()
         self.ui.txtQtde.setText("")
 
+    @QtCore.pyqtSlot()
     def on_btExcluirItem_clicked(self):
         if len(self.ui.tblItens.selectionModel().selectedRows()) == 0:
             return False
         # Pega os dados da linha clicada identifica o campo
         SelRows = self.ui.tblItens.selectedIndexes()
         row = SelRows[0].row()
-        idItem = self.ui.tblItens.item(row,0).text()
+        idItem = self.ui.tblItens.item(row, 0).text()
         print("Id do Item: " + idItem)
-        vConf = QMessageBox.question(self,"Confirmação", "Você confirma a exclusão deste ítem?", QMessageBox.Yes | QMessageBox.No)
+        vConf = QMessageBox.question(self, "Confirmação", "Você confirma a exclusão deste ítem?", QMessageBox.Yes | QMessageBox.No)
         if vConf == QMessageBox.Yes:
             SQL = "DELETE FROM reservas_itens WHERE id = " + idItem
-            #args = (idItem)
+            # define a connection string
+            conn = mysql.connector.connect(host=bibliotecas.mysqldb.curHost, user=bibliotecas.mysqldb.user,
+                                           passwd=bibliotecas.mysqldb.pasw, database=bibliotecas.mysqldb.database)
+            # define um "cursor" operador das transações
+            cursor = conn.cursor()
             try:
-                # define a connection string
-                conn = mysql.connector.connect(host=bibliotecas.mysqldb.curHost, user=bibliotecas.mysqldb.user,
-                                               passwd=bibliotecas.mysqldb.pasw, database=bibliotecas.mysqldb.database)
-                # define um "cursor" operador das transações
-                cursor = conn.cursor()
                 # executa
                 cursor.execute(SQL)
                 # Efetiva no Banco de Dados
@@ -368,6 +396,7 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         # Atualiza Itens na view
         self.carrega_itens()
 
+    @QtCore.pyqtSlot()
     def on_btExcluir_clicked(self):
         if len(self.ui.tblReservas.selectionModel().selectedRows()) <= 0:
             return False
@@ -376,18 +405,16 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         row = SelRow[0].row()
         idReserva = self.ui.tblReservas.item(row, 0).text()
 
-        vConf = QMessageBox.question(self,"Confirmação", "Você confirma a exclusão desta reserva e TODOS os seus itens?", QMessageBox.Yes | QMessageBox.No)
+        vConf = QMessageBox.question(self, "Confirmação", "Você confirma a exclusão desta reserva e TODOS os seus itens?", QMessageBox.Yes | QMessageBox.No)
         if vConf == QMessageBox.Yes:
-            SQLReserva= "DELETE FROM reservas WHERE id=" + idReserva
-            #args1 = (idReserva)
+            SQLReserva = "DELETE FROM reservas WHERE id=" + idReserva
             SQLItens = "DELETE FROM reservas_itens WHERE Doc_id=" + idReserva
-            #args2 = (idReserva)
+            # define a connection string
+            conn = mysql.connector.connect(host=bibliotecas.mysqldb.curHost, user=bibliotecas.mysqldb.user,
+                                           passwd=bibliotecas.mysqldb.pasw, database=bibliotecas.mysqldb.database)
+            # define um "cursor" operador das transações
+            cursor = conn.cursor()
             try:
-                # define a connection string
-                conn = mysql.connector.connect(host=bibliotecas.mysqldb.curHost, user=bibliotecas.mysqldb.user,
-                                               passwd=bibliotecas.mysqldb.pasw, database=bibliotecas.mysqldb.database)
-                # define um "cursor" operador das transações
-                cursor = conn.cursor()
                 # executa
                 cursor.execute(SQLItens)
                 conn.commit()
@@ -398,10 +425,11 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             finally:
                 cursor.close()
                 conn.close()
-                QMessageBox.information(self,"Confirmação","A Reserva " + idReserva + " e TODOS os seus itens foi Excluída!",QMessageBox.Ok)
+                QMessageBox.information(self, "Confirmação", "A Reserva " + idReserva + " e TODOS os seus itens foi Excluída!", QMessageBox.Ok)
                 self.carrega_reservas(1)
             # Atualiza Itens na view
 
+    @QtCore.pyqtSlot()
     def btAltera_clicado(self):
         if self.ui.btAltera.text() == "Alterar":
             # Se não tiver nada selecionado então já sai da rotina
@@ -415,10 +443,9 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             self.idItem = self.ui.tblItens.item(row, 0).text()
             # Prepara para a próxima etapa que é de salvar
             self.ui.btAltera.setText("Salvar")
-            #self.ui.tblItens.setEnabled(False)
             # Pega os dados da linha selecionada na tabela de ítens
             self.ui.txtQtde.setText(self.ui.tblItens.item(row, 4).text())
-            # Localiza o item no combo, de acordo com o ítem da reserva
+            # Localiza o ítem no combo segundo o ítem da reserva
             idx = self.ui.cmbVariedade.findText(self.ui.tblItens.item(row, 3).text(), QtCore.Qt.MatchFixedString)
             if idx >= 0:
                 self.ui.cmbVariedade.setCurrentIndex(idx)
@@ -429,43 +456,37 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         elif self.ui.btAltera.text() == "Salvar":
             print('Texto do botão:', self.ui.btAltera.text())
             print('Texto é Salvar')
-            #selrow = self.ui.tblItens.selectedIndexes()
-            #row = selrow[0].row()
-            #print(row)
-            #if len(selrow) <= 0:
-            #    return False
-            #idItem = self.ui.tblItens.item(row, 0).text()
             self.ui.btAltera.setText("Alterar")
             self.ui.tblItens.setEnabled(True)
             DR = self.ComboModel.record(self.ui.cmbVariedade.currentIndex())
             # Monta a Query para alteração
             qryAlteraItem = QtSql.QSqlQuery()
             qryAlteraItem.prepare("UPDATE reservas_itens SET quantidade=:qtde, preco=:preco, mercadoria=:merc, clone=:clone, descricao=:descricao WHERE id=:idItem")
-            qryAlteraItem.bindValue(':idItem',self.idItem)
-            qryAlteraItem.bindValue(':qtde',int(self.ui.txtQtde.text()))
+            qryAlteraItem.bindValue(':idItem', self.idItem)
+            qryAlteraItem.bindValue(':qtde', int(self.ui.txtQtde.text()))
             qryAlteraItem.bindValue(':preco', locale.atof(self.ui.txtValor.text()))
-            qryAlteraItem.bindValue(':merc',DR.field(1).value())
-            qryAlteraItem.bindValue(':clone',DR.field(2).value())
-            qryAlteraItem.bindValue(':descricao',DR.field(3).value())
+            qryAlteraItem.bindValue(':merc', DR.field(1).value())
+            qryAlteraItem.bindValue(':clone', DR.field(2).value())
+            qryAlteraItem.bindValue(':descricao', DR.field(3).value())
             try:
                 print('Passou aqui')
                 qryAlteraItem.exec()
             except Error as error:
-                QMessageBox.critical(self,"Erro","Erro ao alterar o item " + str(self.idItem) + "\n" + qryAlteraItem.lastError().text() + "\n")
+                QMessageBox.critical(self, "Erro", "Erro ao alterar o item " + str(self.idItem) + "\n" + qryAlteraItem.lastError().text() + "\n")
                 print(error)
             finally:
                 self.carrega_itens()
                 self.ui.btAltera.setText("Alterar")
-                #self.ui.tblItens.setEnabled(True)
-                QMessageBox.information(self,"Confirmação","Item " + str(self.idItem) + " atualizado com sucesso!")
+                QMessageBox.information(self, "Confirmação", "Item " + str(self.idItem) + " atualizado com sucesso!")
 
+    @QtCore.pyqtSlot()
     def on_btConfirmada_clicked(self):
-        if len(self.ui.tblReservas.selectionModel().selectedRows()) <=0:
+        if len(self.ui.tblReservas.selectionModel().selectedRows()) <= 0:
             return False
         SelRow = self.ui.tblReservas.selectedIndexes()
         row = SelRow[0].row()
         idReserva = self.ui.tblReservas.item(row, 0).text()
-        a = QMessageBox.question(self,"Confirmação","A Reserva " + str(idReserva) + " será marcada como confirmada?", QMessageBox.Yes | QMessageBox.No,QMessageBox.No)
+        a = QMessageBox.question(self, "Confirmação", "A Reserva " + str(idReserva) + " será marcada como confirmada?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if a == QMessageBox.Yes:
             SQL = "UPDATE reservas SET confirmada=1 WHERE id=" + str(idReserva)
             try:
@@ -478,13 +499,14 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             finally:
                 for j in range(0, 8):
                     self.ui.tblReservas.item(row, j).setBackground(self.corReserva)
-                QMessageBox.information(self,"Confirmação","A Reserva " + str(idReserva) + " foi confirmada com sucesso!",QMessageBox.Ok)
+                QMessageBox.information(self, "Confirmação", "A Reserva " + str(idReserva) + " foi confirmada com sucesso!", QMessageBox.Ok)
 
+    @QtCore.pyqtSlot()
     def btPrazo_clicado(self):
-        if len(self.ui.tblReservas.selectionModel().selectedRows()) <=0:
+        if len(self.ui.tblReservas.selectionModel().selectedRows()) <= 0:
             return False
         # Pega a informação de data
-        texto, okPressed = QInputDialog.getText(self,"Definição de Prazo","Prazo de Entrega (9999-12-31):",QLineEdit.Normal,"")
+        texto, okPressed = QInputDialog.getText(self, "Definição de Prazo", "Prazo de Entrega (9999-12-31):", QLineEdit.Normal, "")
         # Verifica se foi informada a data
         if okPressed and texto != "":
             SelRow = self.ui.tblReservas.selectedIndexes()
@@ -500,9 +522,10 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             except Error as error:
                 print(error)
             finally:
-                QMessageBox.information(self,"Confirmação","O Prazo da reserva " + str(idReserva) + " foi alterado para " + texto)
+                QMessageBox.information(self, "Confirmação", "O Prazo da reserva " + str(idReserva) + " foi alterado para " + texto)
             print(texto)
 
+    @QtCore.pyqtSlot()
     def on_btAtendida_clicked(self):
         if len(self.ui.tblReservas.selectionModel().selectedRows()) <= 0:
             return False
@@ -513,9 +536,9 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         idReserva = self.ui.tblReservas.item(row, 0).text()
         print("btAtendida idReserva: "+str(idReserva))
         # Envia um Messagebox de confirmação
-        vConf = QMessageBox.question(self,"Confirmação", "Você a liquidação (Atendimento) desta reserva e TODOS os seus itens?", QMessageBox.Yes | QMessageBox.No)
+        vConf = QMessageBox.question(self, "Confirmação", "Você confirma a liquidação (Atendimento) desta reserva e TODOS os seus itens?", QMessageBox.Yes | QMessageBox.No)
         if vConf == QMessageBox.Yes:
-            SQLReserva= "UPDATE Reservas SET Atendido=1 WHERE id=" + idReserva
+            SQLReserva = "UPDATE Reservas SET Atendido=1 WHERE id=" + idReserva
             try:
                 qryAtendido = QtSql.QSqlQuery()
                 qryAtendido.exec_(SQLReserva)
@@ -524,7 +547,7 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
             except Error as error:
                 print(error)
             finally:
-                QMessageBox.information(self,"Confirmação","A Reserva " + idReserva + " e TODOS os seus itens foram marcados como atendidos!",QMessageBox.Ok)
+                QMessageBox.information(self, "Confirmação", "A Reserva " + idReserva + " e TODOS os seus itens foram marcados como atendidos!", QMessageBox.Ok)
                 self.carrega_reservas(1)
             # Atualiza Itens na view
 
@@ -550,10 +573,10 @@ class frmPesquisaReservas_Gui(QtWidgets.QDialog):
         # Clausula SOMENTE
         #
         if self.ui.rdSomente.isChecked():
-            # Pega TODOS os campos que estão constando no relatóro
+            # Pega TODOS os campos que constam no relatóro
             SQLCampos = "SHOW COLUMNS FROM planilha_reservas"
+            qryCampos = QtSql.QSqlQuery()
             try:
-                qryCampos = QtSql.QSqlQuery()
                 qryCampos.exec_(SQLCampos)
                 print("qryCampos: Linhas retornadas: " + str(qryCampos.numRowsAffected()))
             except Error as error:

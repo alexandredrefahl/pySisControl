@@ -13,15 +13,21 @@ def MessageBox(Mensagem, Titulo, Informacoes):
     msg.setInformativeText(Informacoes)
     msg.setWindowTitle(Titulo)
     retval = msg.exec_()
-    # msg.setDetailedText(Detalhes)
 
-def DLookUp(tabela,condicao):
+
+def DLookUp(campo, tabela, condicao):
     query = QSqlQuery()
-    try :
-        query.exec("SELECT * FROM " + tabela + " WHERE " + condicao)
-        return query
+    try:
+        SQL = "SELECT " + campo + "  FROM " + tabela + " WHERE " + condicao
+        verifica = query.prepare(SQL)
+        if verifica:
+            query.exec_(SQL)
+            query.first()
+            return query.value(0)
+        else:
+            print("DLookUp: Erro ao tentar executar SQL")
     except:
-        print("Erro ao tentar resgatar dados no banco de dados")
+        print("DLookUp: Erro ao tentar resgatar dados no banco de dados")
         return -1
 
 def calculaSEDEX(cepOri="",cepDest="",Dimensoes=[],peso=0):
@@ -53,6 +59,8 @@ def calculaSEDEX(cepOri="",cepDest="",Dimensoes=[],peso=0):
         print(f'O prazo de entrega é de {prazo} dias')
         return preco,prazo
     return 0,0
+
+
 def getPastaPrincipal():
     from pathlib import Path
     ROOT_DIR = Path(__file__).parent.parent
