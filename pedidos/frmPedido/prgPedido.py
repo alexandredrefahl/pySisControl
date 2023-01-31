@@ -108,6 +108,7 @@ class frmPedido(QtWidgets.QDialog):
         self.ui.cmbFormaPag.setModel(self.mdlForma)
         self.ui.cmbFormaPag.setModelColumn(self.mdlForma.fieldIndex("Descricao"))
 
+    @QtCore.pyqtSlot()
     def txtCFOP_editingfinished(self):
         if len(self.ui.txtCFOP.text()) == 4:
             query = QSqlQuery()
@@ -122,6 +123,7 @@ class frmPedido(QtWidgets.QDialog):
                 QtWidgets.QMessageBox.critical(self, "Registro não Localizado", "CFOP Não Encontrado",
                                                QtWidgets.QMessageBox.Ok)
 
+    @QtCore.pyqtSlot()
     def Carrega_Cidades(self):
         # Lista dos estados
         estados = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE",
@@ -134,6 +136,7 @@ class frmPedido(QtWidgets.QDialog):
             self.ui.txtCidade.setModel(cidades)
             self.ui.txtCidade.setModelColumn(1)
 
+    @QtCore.pyqtSlot()
     def Codigo_Cidade(self):
         # Pega o Código no Combo para colocar no label
         idx = self.ui.txtCidade.currentIndex()
@@ -150,6 +153,7 @@ class frmPedido(QtWidgets.QDialog):
         DR = self.mdlProdutos.record(self.ui.cmbMercadoria.currentIndex())
         self.ui.txtValor.setText(locale.format_string('%.2f', DR.field(4).value()))
 
+    @QtCore.pyqtSlot()
     def btCliente_clicked(self):
         # Cria o objeto Diálogo
         self.dlgProcuraCliente = dlgSelecaoClientes()
@@ -158,6 +162,7 @@ class frmPedido(QtWidgets.QDialog):
         # apresenta o diálogo se seleção
         self.dlgProcuraCliente.showNormal()
 
+    @QtCore.pyqtSlot()
     def btCEP_clicked(self):
         if len(self.ui.txtCEP.text()) < 8:
             return
@@ -187,6 +192,7 @@ class frmPedido(QtWidgets.QDialog):
         except BaseException as exc:
             QMessageBox.critical(self, "Erro CEP", "CEP Não Localizado\n" + str(exc), QtWidgets.QMessageBox.Ok)
 
+    @QtCore.pyqtSlot()
     def btAdd_Clicked(self):
         # Busca a linha no model que contém os dados da linha
         DR = self.mdlProdutos.record(self.ui.cmbMercadoria.currentIndex())
@@ -224,6 +230,7 @@ class frmPedido(QtWidgets.QDialog):
         self.ui.txtQtde.setText("")
         self.ui.txtQtde.setFocus()
 
+    @QtCore.pyqtSlot()
     def cmbFormaPag_idxChanged(self):
         # Se o combo estiver vazio ou nada selecionado
         if self.ui.cmbFormaPag.currentIndex() <= -1:
@@ -257,45 +264,128 @@ class frmPedido(QtWidgets.QDialog):
     def CarregaDados(self, tabela, CliID):
         # Captar os dados de um pedido antigo
         if tabela == "pedidos":
-            # ***** PEDIDOS *****
-            # Monta a SQL Base
-            SQL = "SELECT * FROM pedidos WHERE id=" + str(CliID)
-            # Cria um Query Model para pegar os dados do cliente
-            cliente = QtSql.QSqlQueryModel(self)
-            cliente.setQuery(QtSql.QSqlQuery(SQL))
-            # Pega o único Registro que se espera encontrar
-            DR = cliente.record(0)
-            # Começa a preeencher os campos do Formulário
-            self.ui.txtNome.setText(DR.value("cliente"))
-            self.ui.txtEndereco.setText(DR.value('endereco'))
-            self.ui.txtNum.setText(DR.value('num'))
-            self.ui.txtBairro.setText(DR.value('bairro'))
-            self.ui.txtComplemento.setText(DR.value('complemento'))
-            self.ui.txtCEP.setText(DR.value('CEP'))
-            self.ui.txtEstado.setText(DR.value('estado'))
-            # Atualiza a lista de Cidades no Combo
-            self.Carrega_Cidades()
-            # Encontrar Valor no Combo
-            idx = self.ui.txtCidade.findText(DR.value('cidade'), QtCore.Qt.MatchFixedString)
-            if idx >= 0:
-                self.ui.txtCidade.setCurrentIndex(idx)
-            self.ui.txtPais.setText(DR.value('pais'))
-            self.ui.txtCodCidade.setText(DR.value('codcidade'))
-            self.ui.txtCodPais.setText(DR.value('CodPais'))
-            self.ui.txtFone.setText(DR.value('fone'))
-            self.ui.txtEmail.setText(DR.value('email'))
-            # Seleciona o Radio Button Baseado neste valor
-            if DR.value('PFPJ') == "F":
-                self.ui.rdPF.setChecked(True)
-            elif DR.value('PFPJ') == "J":
-                self.ui.rdPJ.setChecked(True)
-            self.ui.txtCNPJ_CPF.setText(re.sub("\W+", '', DR.value('CNPJ_CPF')))
-            self.ui.txtContato.setText(DR.value('contato'))
+            # ***** Pedidos Anteriores *****
+            self.Carrega_Dados_Pedidos(CliID)
         elif tabela == "docs":
             # ***** NOTAS FISCAIS *****
-            pass
+            self.Carrega_Dados_Docs(CliID)
         elif tabela == "clientes":
-            pass
+            # ***** Cadastro de clientes *****
+            self.Carrega_Dados_Clientes(CliID)
+
+    def Carrega_Dados_Docs(self, DocID=0):
+        # Monta a SQL Base
+        SQL = "SELECT * FROM docs WHERE id=" + str(DocID)
+        # Aqui vou usar SQLQuery porque não preciso alterar nada só consultar
+        queryDoc = QSqlQuery()
+        if not queryDoc.prepare(SQL):
+            raise Exception("Erro na SQL de pesquisa: " + SQL)
+        if not queryDoc.exec_(SQL):
+            print(queryDoc.lastError().text())
+            raise Exception("Não foi possível entcontrar o Documento específico: " + str(DocID))
+        # Vai para o primeiro e unico registro
+        queryDoc.first()
+        # Começa a preeencher os campos do Formulário
+        self.ui.txtNome.setText(queryDoc.value("Cliente"))
+        self.ui.txtEndereco.setText(queryDoc.value('endereco'))
+        self.ui.txtNum.setText(queryDoc.value('num'))
+        self.ui.txtBairro.setText(queryDoc.value('bairro'))
+        self.ui.txtComplemento.setText(queryDoc.value('complemento'))
+        self.ui.txtCEP.setText(queryDoc.value('CEP'))
+        self.ui.txtEstado.setText(queryDoc.value('estado'))
+        # Atualiza a lista de Cidades no Combo
+        self.Carrega_Cidades()
+        # Encontrar Valor no Combo
+        idx = self.ui.txtCidade.findText(queryDoc.value('cidade'), QtCore.Qt.MatchFixedString)
+        if idx >= 0:
+            self.ui.txtCidade.setCurrentIndex(idx)
+        self.ui.txtPais.setText(queryDoc.value('pais'))
+        self.ui.txtCodCidade.setText(queryDoc.value('codcidade'))
+        self.ui.txtCodPais.setText(queryDoc.value('CodPais'))
+        self.ui.txtFone.setText(queryDoc.value('fone'))
+        self.ui.txtEmail.setText(queryDoc.value('email'))
+        # Seleciona o Radio Button Baseado neste valor
+        if queryDoc.value('PFPJ') == "F":
+            self.ui.rdPF.setChecked(True)
+        elif queryDoc.value('PFPJ') == "J":
+            self.ui.rdPJ.setChecked(True)
+        self.ui.txtCNPJ_CPF.setText(re.sub(u'[-./_+*]', '', queryDoc.value('CNPJ_CPF')))
+        self.ui.txtContato.setText(queryDoc.value('contato'))
+
+    def Carrega_Dados_Pedidos(self, CliID=0):
+        # ***** PEDIDOS *****
+        # Monta a SQL Base
+        SQL = "SELECT * FROM pedidos WHERE id=" + str(CliID)
+        # Cria um Query Model para pegar os dados do cliente
+        cliente = QtSql.QSqlQueryModel(self)
+        cliente.setQuery(QtSql.QSqlQuery(SQL))
+        # Pega o único Registro que se espera encontrar
+        DR = cliente.record(0)
+        # Começa a preeencher os campos do Formulário
+        self.ui.txtNome.setText(DR.value("cliente"))
+        self.ui.txtEndereco.setText(DR.value('endereco'))
+        self.ui.txtNum.setText(DR.value('num'))
+        self.ui.txtBairro.setText(DR.value('bairro'))
+        self.ui.txtComplemento.setText(DR.value('complemento'))
+        self.ui.txtCEP.setText(DR.value('CEP'))
+        self.ui.txtEstado.setText(DR.value('estado'))
+        # Atualiza a lista de Cidades no Combo
+        self.Carrega_Cidades()
+        # Encontrar Valor no Combo
+        idx = self.ui.txtCidade.findText(DR.value('cidade'), QtCore.Qt.MatchFixedString)
+        if idx >= 0:
+            self.ui.txtCidade.setCurrentIndex(idx)
+        self.ui.txtPais.setText(DR.value('pais'))
+        self.ui.txtCodCidade.setText(DR.value('codcidade'))
+        self.ui.txtCodPais.setText(DR.value('CodPais'))
+        self.ui.txtFone.setText(DR.value('fone'))
+        self.ui.txtEmail.setText(DR.value('email'))
+        # Seleciona o Radio Button Baseado neste valor
+        if DR.value('PFPJ') == "F":
+            self.ui.rdPF.setChecked(True)
+        elif DR.value('PFPJ') == "J":
+            self.ui.rdPJ.setChecked(True)
+        self.ui.txtCNPJ_CPF.setText(re.sub(u'[-./_+*]', '', DR.value('CNPJ_CPF')))
+        self.ui.txtContato.setText(DR.value('contato'))
+
+    def Carrega_Dados_Clientes(self, CliID=0):
+        # Monta a SQL Base
+        SQL = "SELECT * FROM clientes WHERE id=" + str(CliID)
+        # Aqui vou usar SQLQuery porque não preciso alterar nada só consultar
+        queryDoc = QSqlQuery()
+        if not queryDoc.prepare(SQL):
+            raise Exception("Erro na SQL de pesquisa: " + SQL)
+        if not queryDoc.exec_(SQL):
+            print(queryDoc.lastError().text())
+            raise Exception("Não foi possível entcontrar o Cadastro específico: " + str(CliID))
+        # Vai para o primeiro e unico registro
+        queryDoc.first()
+        # Começa a preeencher os campos do Formulário
+        self.ui.txtNome.setText(queryDoc.value("Nome"))
+        self.ui.txtEndereco.setText(queryDoc.value('Endereco'))
+        self.ui.txtNum.setText(queryDoc.value('Num'))
+        self.ui.txtBairro.setText(queryDoc.value('bairro'))
+        self.ui.txtComplemento.setText(queryDoc.value('complemento'))
+        self.ui.txtCEP.setText(queryDoc.value('CEP'))
+        self.ui.txtEstado.setText(queryDoc.value('estado'))
+        # Atualiza a lista de Cidades no Combo
+        self.Carrega_Cidades()
+        # Encontrar Valor no Combo
+        idx = self.ui.txtCidade.findText(queryDoc.value('cidade'), QtCore.Qt.MatchFixedString)
+        if idx >= 0:
+            self.ui.txtCidade.setCurrentIndex(idx)
+        self.ui.txtPais.setText(queryDoc.value('pais'))
+        # self.ui.txtCodCidade.setText(queryDoc.value('codcidade'))
+        # self.ui.txtCodPais.setText(queryDoc.value('CodPais'))
+        self.ui.txtFone.setText(queryDoc.value('fone'))
+        self.ui.txtEmail.setText(queryDoc.value('email'))
+        # Seleciona o Radio Button Baseado neste valor
+        if queryDoc.value('PFPJ') == "F":
+            self.ui.rdPF.setChecked(True)
+        elif queryDoc.value('PFPJ') == "J":
+            self.ui.rdPJ.setChecked(True)
+        self.ui.txtCNPJ_CPF.setText(re.sub(u'[-./_+*]', '', queryDoc.value('CPF_CNPJ')))
+        self.ui.txtContato.setText(queryDoc.value('contato'))
 
     def Atualiza_Totais(self):
         numRows = self.ui.tblItens.rowCount()
@@ -470,7 +560,7 @@ class frmPedido(QtWidgets.QDialog):
         if len(self.ui.txtNumPedido.text()) > 0:
             sql_Pedido.bindValue(":reserva", self.ui.txtNumPedido.text())
         else:
-            sql_Pedido.bindValue(":reserva", "NULL")
+            sql_Pedido.bindValue(":reserva", None)
         Doc_ID = 0
         # Confirma se o pedido foi incluido com sucesso
         if sql_Pedido.exec():
@@ -584,15 +674,18 @@ class frmPedido(QtWidgets.QDialog):
             vConf = QMessageBox.question(self, "Confirmação", "Gostaria de marcar a reserva " + idReserva + " como atendida?", QMessageBox.Yes | QMessageBox.No)
             if vConf == QMessageBox.Yes:
                 SQLReserva = "UPDATE Reservas SET Atendido=1 WHERE id=" + idReserva
+                qryAtendido = QtSql.QSqlQuery()
                 try:
-                    qryAtendido = QtSql.QSqlQuery()
                     qryAtendido.exec_(SQLReserva)
                     print("Linhas afetadas: " + str(qryAtendido.numRowsAffected()))
                     print("Erro:" + qryAtendido.lastError().text())
                 except Error as error:
                     print(error)
                 finally:
-                    QMessageBox.information(self, "Confirmação", "A Reserva " + idReserva + " e TODOS os seus itens foram marcados como atendidos!", QMessageBox.Ok)
+                    if qryAtendido.numRowsAffected() > 0:
+                        QMessageBox.information(self, "Confirmação", "A Reserva " + idReserva + " e TODOS os seus itens foram marcados como atendidos!", QMessageBox.Ok)
+                    else:
+                        QMessageBox.critical(self, "Erro", "A Reserva " + idReserva + " Não pode ser marcada como Atendida, ou não pode ser localizada!", QMessageBox.Ok)
         # Prepara o formulário para nova inclusão
         self.Limpa_Campos()
 
@@ -600,24 +693,42 @@ class frmPedido(QtWidgets.QDialog):
         self.Atualiza_Totais()
 
     def tblItens_CellChange(self, row, col):
-        # Se for alterada a quantidade ou o valor
-        if self.ui.tblItens.currentItem().column() == 3 or self.ui.tblItens.currentItem().column() == 4:
-            cell = self.ui.tblItens.currentItem()
-            triggered = cell.text()
-            varPreco = 0
-            varNewQtde = 0
-            if col == 3:  # Quantidade
-                varPreco = locale.atof(self.ui.tblItens.item(row, 4).text())
-                varNewQtde = int(triggered)
-            if col == 4:  # Unitário
-                varPreco = locale.atof(triggered)
-                varNewQtde = int(self.ui.tblItens.item(row, 3).text())
-            varNewTotal = varPreco * varNewQtde
-            varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
-            varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
-            self.ui.tblItens.setItem(row, 5, varTotItem)
-            # Atualiza totais depois da alteração
-            self.Atualiza_Totais()
+        # Tem que "desligar" a emissão de sinais para evitar a recursão, pois cada vez que altera o preço ela emite o sinal
+        # novamente e a função entra em 'looping'.
+        try:
+            # Se for alterada a quantidade ou o valor
+            if self.ui.tblItens.currentItem().column() == 3 or self.ui.tblItens.currentItem().column() == 4:
+                cell = self.ui.tblItens.currentItem()
+                triggered = cell.text()
+                varPreco = 0
+                varNewQtde = 0
+                if col == 3:  # Quantidade
+                    varPreco = locale.atof(self.ui.tblItens.item(row, 4).text())
+                    varNewQtde = int(triggered)
+                if col == 4:  # Preço Unitário
+                    varPreco = locale.atof(triggered)
+                    varNewQtde = int(self.ui.tblItens.item(row, 3).text())
+                    # Formata o número caso o utilizador não tenha feito
+                    # Bloqueia o sinal para evitar recursão da função
+                    self.ui.tblItens.blockSignals(True)
+                    varPrecoNovo = QTableWidgetItem(locale.format_string('%.2f', varPreco))
+                    varPrecoNovo.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
+                    self.ui.tblItens.setItem(row, 4, varPrecoNovo)
+                    # Devolve a emissão de sinais
+                    self.ui.tblItens.blockSignals(False)
+                # Depois de alteradas as quantidades ou valor, recalcula o total da linha
+                varNewTotal = varPreco * varNewQtde
+                # Bloqueia a emissão de sinais para evitar recursão
+                self.ui.tblItens.blockSignals(True)
+                varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
+                varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
+                self.ui.tblItens.setItem(row, 5, varTotItem)
+                # Devolve a emissão de sinais
+                self.ui.tblItens.blockSignals(False)
+                # Atualiza totais depois da alteração
+                self.Atualiza_Totais()
+        except:
+            pass
 
     def Limpa_Campos(self):
         wid = self.ui.scrollAreaWidgetContents.findChild(QFrame, "frame")

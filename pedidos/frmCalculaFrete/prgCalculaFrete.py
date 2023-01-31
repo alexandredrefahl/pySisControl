@@ -332,24 +332,25 @@ class frmCalculaFrete(QDialog):
 
     @QtCore.pyqtSlot()
     def tblOrcamento_CellChanged(self, row, col):
-        # Se for alterada a quantidade ou o valor
-        if self.ui.tblOrcamento.currentItem().column() == 3 or self.ui.tblOrcamento.currentItem().column() == 4:
-            cell = self.ui.tblOrcamento.currentItem()
-            triggered = cell.text()
-            varPreco = 0
-            varNewQtde = 0
-            if col == 3:
-                varPreco = locale.atof(self.ui.tblOrcamento.item(row, 4).text())
-                varNewQtde = int(triggered)
-            if col == 4:
-                varPreco = locale.atof(triggered)
-                varNewQtde = int(self.ui.tblOrcamento.item(row, 3).text())
-            varNewTotal = varPreco * varNewQtde
-            varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
-            varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
-            self.ui.tblOrcamento.setItem(row, 5, varTotItem)
-            self.atualiza_totais()
-            self.atualiza_Caixa()
+        try:
+            # Se for alterada a quantidade ou o valor
+            if self.ui.tblOrcamento.currentItem().column() == 3 or self.ui.tblOrcamento.currentItem().column() == 4:
+                cell = self.ui.tblOrcamento.currentItem()
+                triggered = cell.text()
+                if col == 3:    # Quantidade Alterada
+                    varQtde = int(triggered)
+                    varPreco = locale.atof(self.ui.tblOrcamento.item(row, 4).text())
+                if col == 4:    # Preço alterado
+                    varPreco = locale.atof(triggered)
+                    varQtde = int(self.ui.tblOrcamento.item(row, 3).text())
+                varNewTotal = varPreco * varQtde
+                varTotItem = QTableWidgetItem(locale.format_string('%.2f', varNewTotal))
+                varTotItem.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
+                self.ui.tblOrcamento.setItem(row, 5, varTotItem)
+                self.atualiza_totais()
+                self.atualiza_Caixa()
+        except:
+            pass
 
     @QtCore.pyqtSlot()
     def tblOrcamento_mudancaContagemLinhas(self):
