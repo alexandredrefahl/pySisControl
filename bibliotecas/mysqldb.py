@@ -3,12 +3,12 @@ import subprocess
 import platform
 from PyQt5 import QtSql
 
-curHost = '10.1.1.254'
-host = '10.1.1.254'
-remo = '187.59.80.163'
-user = 'alexandre'
-pasw = '@drf1624'
-database = 'controle'
+curHost = '000.0.0.000'
+host = '000.0.0.000'
+remo = '000.000.000.000'
+user = 'myuser'
+pasw = '123456'
+database = 'mydb'
 port = 3306
 
 def getHost():
