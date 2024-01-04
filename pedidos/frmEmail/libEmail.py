@@ -18,7 +18,7 @@ def download_arquivos():
     # Conecta no servidor
     mail = imaplib.IMAP4_SSL("uscentral30.myserverhosts.com",993)
     # Autentica
-    mail.login("comercial@clona-gen.com.br", "clona@2019")
+    mail.login("comercial@clona-gen.com.br", "mypass")
     # Seleciona a Caixa de Entrada
     mail.select('Inbox')
     # Filtra os emails que tem o Assunto: Interessados
@@ -172,7 +172,7 @@ def envia_email(Nome, Email, Interesse):
     server = smtplib.SMTP("uscentral30.myserverhosts.com")
     server.ehlo()
     server.starttls()
-    server.login("comercial@clona-gen.com.br", "clona@2019")
+    server.login("comercial@clona-gen.com.br", "mypass")
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     server.sendmail( "comercial@clona-gen.com.br",[Email,"alexandredrefahl@gmail.com"], msg.as_string())
