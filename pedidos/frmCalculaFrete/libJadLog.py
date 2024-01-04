@@ -5,10 +5,10 @@ import xlrd
 def calcula_frete(Cep,peso,valor):
    url = 'http://www.jadlog.com.br/embarcador/api/cte/xml'
    url1 = 'http://www.jadlog.com.br/embarcador/api/frete/valor'
-   cabecalho = {'content-type' : 'application/json', 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOjc3MDQ1LCJkdCI6IjIwMTkxMDExIn0.8yYFYJqGSQ9mpWXXs-WD5xRdvBc_FRazWnnzYHv5hag'}
-
+   cabecalho = {'content-type' : 'application/json', 'Authorization' : 'Bearer herecomesyourapikey '}
    # para consulta de DACTE, mas esta seria uma outra função
-   dados = { 'dacte' : '42190904884082000305570000067081591067081590' }
+   dados = { 'dacte' : '12982348234728374089347523945893478589582485' }
+                        
 
    # Modalidades
    # 0  - Expresso   - Aereo
@@ -23,7 +23,7 @@ def calcula_frete(Cep,peso,valor):
    # Dados de entrada para consulta de Valor
    dados1 = {
    "frete": [
-            {'cepori':'89203001', 'cepdes' : Cep, 'frap' : 'N', 'peso' : peso, 'cnpj' : '07727715000190' , 'conta' : '77045', 'contrato' : '', 'modalidade' : 9 , 'tpentrega' : 'D' , 'tpseguro' : 'N' , 'vldeclarado' : valor }
+            {'cepori':'89203001', 'cepdes' : Cep, 'frap' : 'N', 'peso' : peso, 'cnpj' : '998989898' , 'conta' : '7845201', 'contrato' : '', 'modalidade' : 9 , 'tpentrega' : 'D' , 'tpseguro' : 'N' , 'vldeclarado' : valor }
             ]
    }
    # Formata os dados JSON para envio
