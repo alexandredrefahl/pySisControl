@@ -86,7 +86,7 @@ class zapbot:
 
 if __name__ == '__main__':
     bot = zapbot()  # Inicia o objeto zapbot
-    bot.abre_conversa("+55 47 9952-3993")  # Passando o numero ou o nome do contato
+    bot.abre_conversa("+55 47 9999-9999")  # Passando o numero ou o nome do contato
     bot.envia_msg("Que bom!")
     #imagem = bot.dir_path + "/imagem.jpg"  # Passando o caminho da imagem que será enviada
     #msg = ""  # Criando a variável msg
