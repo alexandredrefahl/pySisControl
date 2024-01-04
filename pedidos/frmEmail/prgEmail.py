@@ -47,7 +47,7 @@ class frmEmail_Gui(QtWidgets.QDialog):
             # Conecta no servidor
             mail = imaplib.IMAP4_SSL("uscentral66.myserverhosts.com", 993)
             # Autentica
-            mail.login("comercial@clona-gen.com.br", "clona@2019")
+            mail.login("email@clona-gen.com.br", "mypass")
             # Seleciona a Caixa de Entrada
             mail.select('INBOX.Responder')
             # Filtra os emails que tem o Assunto: Interessados
@@ -418,9 +418,9 @@ class frmEmail_Gui(QtWidgets.QDialog):
         # Create message container - the correct MIME type is multipart/alternative.
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "Mudas de Mandiocas BRS"
-        msg['From'] = "comercial@clona-gen.com.br"
+        msg['From'] = "email@clona-gen.com.br"
         msg['To'] = Email
-        msg['Cc'] = "alexandredrefahl@gmail.com"
+        msg['Cc'] = "otheremail@email.com"
         # Create the body of the message (a plain-text and an HTML version).
         text = "Texto Email"
         html = texto_email
@@ -436,9 +436,9 @@ class frmEmail_Gui(QtWidgets.QDialog):
         server = smtplib.SMTP("uscentral66.myserverhosts.com")
         server.ehlo()
         server.starttls()
-        server.login("comercial@clona-gen.com.br", "clona@2019")
+        server.login("email@clona-gen.com.br", "mypass")
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
-        server.sendmail("comercial@clona-gen.com.br", [Email, "alexandredrefahl@gmail.com"], msg.as_string())
+        server.sendmail("email@clona-gen.com.br", [Email, "otheremail@email.com"], msg.as_string())
         print("Email enviado...\r\r")
         server.quit()
