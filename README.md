@@ -2,7 +2,7 @@
 
 Biotechnology laboratory control system migrating to Python-QT. The starting project is https://github.com/alexandredrefahl/SisControl-NET-VS19, but when the company migrated to the Linux platform, the software followed.
 
-## v.1.0.0 em PyQt5
+## v.1.0.0 in PyQt5
 
 ![image](https://github.com/alexandredrefahl/pySisControl/assets/24326296/e82c80c6-9b3b-43e6-ada2-530502c75f41)
 
